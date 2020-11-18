@@ -74,3 +74,92 @@ class Wall:
 
     y = 0
 
+
+class MainMenu:
+    hovered = False
+    clicked = False
+
+    def __init__(self, text, pos, screen, menu_font):
+        self.text = text
+        self.pos = pos
+        self.screen = screen
+        self.menu_font = menu_font
+        self.set_rect()
+        self.draw()
+
+    def draw(self):
+        self.set_rend()
+        self.screen.blit(self.rend, self.rect)
+
+    def set_rend(self):
+        self.rend = self.menu_font.render(self.text, True, self.get_color())
+
+    def get_color(self):
+        if self.hovered:
+            if self.clicked:
+                return (255, 0, 0)
+            else:
+                return (255, 255, 255)
+        else:
+            return (100, 100, 100)
+
+    def set_rect(self):
+        self.set_rend()
+        self.rect = self.rend.get_rect()
+        self.rect.topleft = self.pos
+
+    def new_window(self):
+        if self.clicked:
+            self.screen.fill((159, 182, 205))
+        else:
+            pass
+
+
+class Game:
+    def __init__(self):
+        """
+
+        """
+
+    def start_game(self):
+        """
+
+        :return:
+        """
+
+    def pause_game(self):
+        """
+
+        :return:
+        """
+
+    def end_game(self):
+        """
+
+        :return:
+        """
+
+    def reset_game(self):
+        """
+
+        :return:
+        """
+
+    def create_new_level(self):
+        """
+
+       :return:
+       """
+
+    def next_turn(self):
+        """
+
+        :return:
+        """
+
+    def next_round(self):
+        """
+
+        :return:
+        """
+
