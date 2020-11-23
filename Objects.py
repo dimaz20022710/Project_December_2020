@@ -116,16 +116,19 @@ class MainMenu:
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, screen):
         """
 
         """
+        self.screen = screen
 
     def start_game(self):
         """
 
         :return:
         """
+        self.create_new_level()
+        self.draw_level()
 
     def pause_game(self):
         """
@@ -151,6 +154,13 @@ class Game:
        :return:
        """
 
+    def draw_field(self):
+        """
+
+        :return:
+        """
+
+
     def next_turn(self):
         """
 
@@ -163,3 +173,20 @@ class Game:
         :return:
         """
 
+    def draw_level(self):
+        """
+
+        :return:
+        """
+
+    def set_allies(self):
+        """
+
+        :return:
+        """
+
+    def set_enemies(self):
+        """
+
+        :return:
+        """
