@@ -75,9 +75,17 @@ class Wall:
 
     """
 
-    x = 0
+    def __init__(self, screen, x, y, height, width):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.height = height
+        self.width = width
 
-    y = 0
+    def draw_wall(self):
+        rect(self.screen, (0, 0, 0), (self.x, self.y), ())
+        rect
+
 
 
 class MainMenu:
@@ -135,6 +143,7 @@ class Game:
 
         :return:
         """
+        self.screen.fill((255, 255, 255))
         self.create_new_level()
         self.draw_level()
 
@@ -159,8 +168,9 @@ class Game:
     def create_new_level(self):
         """
 
-       :return:
-       """
+        :return:
+        """
+
 
     def draw_field(self):
         """
@@ -171,7 +181,7 @@ class Game:
         y1 = 0
         x2 = self.screen_width
         y2 = self.screen_height
-        color = (255, 255, 255)
+        color = (0, 0, 0)
         rect(self.screen, color, (x1, y1, x2 - x1, y2 - y1), 2)
         h = (x2 - x1) // (self.N + 1)
         x = x1 + h

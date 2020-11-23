@@ -10,11 +10,12 @@ def start():
     finished = False
     screen_height = 600
     screen_width = 600
-    N = 20
+    N = 19
     FPS = 30
     screen = pygame.display.set_mode((screen_height, screen_width))
     menu_font = pygame.font.Font(None, 40)
-    options = [MainMenu("START GAME", (140, 105), screen, menu_font), MainMenu("EXIT", (185, 205), screen, menu_font)]
+    options = [MainMenu("START GAME", (screen_height // 3, screen_width // 3), screen, menu_font),
+               MainMenu("EXIT", (2 * screen_height // 5 + 20, 2 * screen_width // 3), screen, menu_font)]
     stop = 0
     while not finished:
         if stop == 0:
@@ -30,7 +31,8 @@ def start():
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         option.clicked = True
                         if option.text == "START GAME":
-                            game = Game(pygame.display.set_mode((480, 320)), screen_height, screen_width, N)
+                            game = Game(pygame.display.set_mode((screen_height, screen_width)), screen_height,
+                                        screen_width, N)
                             game.start_game()
                         else:
                             pygame.quit()
