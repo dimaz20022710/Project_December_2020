@@ -1,3 +1,8 @@
+import pygame, sys
+from pygame.locals import *
+from pygame.draw import *
+
+
 class Unit:
     """
     Describes a unit
@@ -116,11 +121,14 @@ class MainMenu:
 
 
 class Game:
-    def __init__(self, screen):
+    def __init__(self, screen, screen_height, screen_width, N):
         """
 
         """
         self.screen = screen
+        self.screen_height = screen_height
+        self.screen_width = screen_width
+        self.N = N
 
     def start_game(self):
         """
@@ -159,7 +167,21 @@ class Game:
 
         :return:
         """
-
+        x1 = 0
+        y1 = 0
+        x2 = self.screen_width
+        y2 = self.screen_height
+        color = (255, 255, 255)
+        rect(self.screen, color, (x1, y1, x2 - x1, y2 - y1), 2)
+        h = (x2 - x1) // (self.N + 1)
+        x = x1 + h
+        w = (y2 - y1) // (self.N + 1)
+        y = y1 + w
+        for i in range(self.N):
+            line(self.screen, color, (x, y1), (x, y2))
+            x += h
+            line(self.screen, color, (x1, y), (x2, y))
+            y += w
 
     def next_turn(self):
         """
@@ -178,6 +200,7 @@ class Game:
 
         :return:
         """
+        self.draw_field()
 
     def set_allies(self):
         """

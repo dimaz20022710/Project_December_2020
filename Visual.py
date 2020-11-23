@@ -4,14 +4,14 @@ from pygame.draw import *
 pygame.init()
 
 FPS = 30
-width = 400
-height = 400
-screen = pygame.display.set_mode((width, height))
+screen_width = 400
+screen_height = 400
+screen = pygame.display.set_mode((screen_width, screen_height))
 
 x1 = 0
 y1 = 0
-x2 = width
-y2 = height
+x2 = screen_width
+y2 = screen_height
 N = 10
 color = (255, 255, 255)
 rect(screen, color, (x1, y1, x2 - x1, y2 - y1), 2)
