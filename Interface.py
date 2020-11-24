@@ -1,7 +1,8 @@
-import pygame, sys
+import pygame
+import sys
 from pygame.locals import *
+
 from Objects import MainMenu, Game
-from pygame.draw import *
 
 
 def start():

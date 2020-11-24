@@ -5,10 +5,18 @@ from pygame.draw import *
 
 class Unit:
     """
-    Describes a unit
+    This class describes units
     """
 
     def __init__(self, hp, damage, movement, x, y):
+        """
+        This function will set the initial characteristics of an object of this class
+        :param hp: Unit's health
+        :param damage:Unit's damage
+        :param movement: Unit's speed
+        :param x: Unit's coordinate x
+        :param y:Unit's coordinate y
+        """
         self.hp = hp
         self.damage = damage
         self.movement = movement
@@ -17,65 +25,83 @@ class Unit:
 
     def draw_unit(self):
         """
-
-        :return:
+        This function draws a unit
         """
 
     def move_unit(self):
         """
-
-        :return:
+        This function describes the movement of the unit
         """
 
 
 class MeleeUnit(Unit):
     """
-
+    A subclass of units that use melee combat
     """
 
     def __init__(self, hp, damage, movement, x, y):
+        """
+        This function will set the initial characteristics of an object of this class
+        :param hp: Unit's health
+        :param damage: Unit's damage
+        :param movement: Unit's speed
+        :param x: Unit's coordinate x
+        :param y: Unit's coordinate y
+        """
         super().__init__(hp, damage, movement, x, y)
 
     def hit(self):
         """
-
-        :return:
+        This function describes unit attacks
         """
 
     def special_ability(self):
         """
-
-        :return:
+        This function describes the superpowers of individual units.
         """
 
 
 class RangeUnit(Unit):
     """
-
+    A subclass of units that use range combat
     """
 
     def __init__(self, hp, damage, movement, x, y):
+        """
+        This function will set the initial characteristics of an object of this class
+        :param hp: Unit's health
+        :param damage: Unit's damage
+        :param movement: Unit's speed
+        :param x: Unit's coordinate x
+        :param y: Unit's coordinate y
+        """
         super().__init__(hp, damage, movement, x, y)
 
     def hit(self):
         """
-
-        :return:
+        This function describes unit attacks
         """
 
     def special_ability(self):
         """
-
-        :return:
+        This function describes the superpowers of individual units.
         """
 
 
 class Wall:
     """
-
+    This class of walls that will be painted on the field
     """
 
     def __init__(self, screen, x, y, height, width):
+        """
+        This function will set the initial characteristics of an object of this class
+        :param screen:
+        :param x:
+        :param y:
+        :param height:
+        :param width:
+        """
         self.screen = screen
         self.x = x
         self.y = y
@@ -84,8 +110,6 @@ class Wall:
 
     def draw_wall(self):
         rect(self.screen, (0, 0, 0), (self.x, self.y), ())
-        rect
-
 
 
 class MainMenu:
@@ -170,7 +194,6 @@ class Game:
 
         :return:
         """
-
 
     def draw_field(self):
         """
