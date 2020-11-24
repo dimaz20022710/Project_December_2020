@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 from pygame.draw import *
+from random import randint as rint
 
 
 class Unit:
@@ -83,9 +84,7 @@ class Wall:
         self.width = width
 
     def draw_wall(self):
-        rect(self.screen, (0, 0, 0), (self.x, self.y), ())
-        rect
-
+        rect(self.screen, (0, 0, 0), (self.x, self.y, self.x + self.height, self.y + self.width))
 
 
 class MainMenu:
@@ -170,7 +169,10 @@ class Game:
 
         :return:
         """
-
+        walls = []
+        for i in range(rint(self.N // 3, self.N // 2)):
+            walls.append(Wall(self.screen, rint(1, self.N) * (self.screen_height // (self.N + 1)), rint(1, self.N) * (self.screen_height // (self.N + 1)), rint(1, self.N // 10) * (self.screen_height // (self.N + 1)), rint(1, self.N // 10) * (self.screen_height // (self.N + 1))))
+        self.walls = walls
 
     def draw_field(self):
         """
@@ -211,6 +213,8 @@ class Game:
         :return:
         """
         self.draw_field()
+        for i in self.walls:
+            i.draw_wall()
 
     def set_allies(self):
         """
