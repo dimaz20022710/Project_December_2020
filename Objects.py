@@ -1,5 +1,3 @@
-import pygame, sys
-from pygame.locals import *
 from pygame.draw import *
 
 
@@ -96,11 +94,11 @@ class Wall:
     def __init__(self, screen, x, y, height, width):
         """
         This function will set the initial characteristics of an object of this class
-        :param screen:
-        :param x:
-        :param y:
-        :param height:
-        :param width:
+        :param screen: The screen on which the object of this class is drawn
+        :param x: The coordinate x of an object of this class
+        :param y: The coordinate y of an object of this class
+        :param height: Height of an object of this class
+        :param width: Width of an object of this class
         """
         self.screen = screen
         self.x = x
@@ -109,14 +107,23 @@ class Wall:
         self.width = width
 
     def draw_wall(self):
+        """ This function draws the wall """
         rect(self.screen, (0, 0, 0), (self.x, self.y), ())
 
 
 class MainMenu:
+    """ This is the class responsible for the main menu """
     hovered = False
     clicked = False
 
     def __init__(self, text, pos, screen, menu_font):
+        """
+        This function sets the initial conditions for an object from this class
+        :param text: Text to be written
+        :param pos: Positioning text on screen
+        :param screen: Screen on which text is displayed
+        :param menu_font: Text font
+        """
         self.text = text
         self.pos = pos
         self.screen = screen
@@ -125,20 +132,26 @@ class MainMenu:
         self.draw()
 
     def draw(self):
+        """  """
         self.set_rend()
         self.screen.blit(self.rend, self.rect)
 
     def set_rend(self):
+        """  """
         self.rend = self.menu_font.render(self.text, True, self.get_color())
 
     def get_color(self):
+        color_red = (255, 0, 0)
+        color_white = (255, 255, 255)
+        color_gray = (100, 100, 100)
+
         if self.hovered:
             if self.clicked:
-                return (255, 0, 0)
+                return color_red
             else:
-                return (255, 255, 255)
+                return color_white
         else:
-            return (100, 100, 100)
+            return color_gray
 
     def set_rect(self):
         self.set_rend()
@@ -146,6 +159,7 @@ class MainMenu:
         self.rect.topleft = self.pos
 
     def new_window(self):
+
         if self.clicked:
             self.screen.fill((159, 182, 205))
         else:
@@ -153,9 +167,15 @@ class MainMenu:
 
 
 class Game:
+    """ This class is responsible for the game process """
+
     def __init__(self, screen, screen_height, screen_width, N):
         """
-
+        This function is responsible for the initial screen characteristics when creating an object of this class.
+        :param screen: The screen that is being created
+        :param screen_height:
+        :param screen_width:
+        :param N:The number of lines vertically and horizontally, respectively
         """
         self.screen = screen
         self.screen_height = screen_height
@@ -163,57 +183,43 @@ class Game:
         self.N = N
 
     def start_game(self):
-        """
-
-        :return:
-        """
-        self.screen.fill((255, 255, 255))
+        """ This function starts the game """
+        color_white = (255, 255, 255)
+        self.screen.fill(color_white)
         self.create_new_level()
         self.draw_level()
 
     def pause_game(self):
-        """
-
-        :return:
-        """
+        """ The function is responsible for pause during the game """
 
     def end_game(self):
-        """
-
-        :return:
-        """
+        """ The function is responsible for the end of the game """
 
     def reset_game(self):
-        """
-
-        :return:
-        """
+        """ This function restarts the game """
 
     def create_new_level(self):
-        """
-
-        :return:
-        """
+        """ This function creates a new level """
 
     def draw_field(self):
-        """
-
-        :return:
-        """
+        """ This function draws a field """
+        # Top-left coordinate
         x1 = 0
         y1 = 0
+        # Top-right coordinate
         x2 = self.screen_width
         y2 = self.screen_height
-        color = (0, 0, 0)
-        rect(self.screen, color, (x1, y1, x2 - x1, y2 - y1), 2)
-        h = (x2 - x1) // (self.N + 1)
+        black_color = (0, 0, 0)
+        rect(self.screen, black_color, (x1, y1, x2 - x1, y2 - y1), 2)
+        h = (x2 - x1) // (self.N + 1)  # Width of one cell
         x = x1 + h
-        w = (y2 - y1) // (self.N + 1)
+        w = (y2 - y1) // (self.N + 1)  # Height of one cell
         y = y1 + w
         for i in range(self.N):
-            line(self.screen, color, (x, y1), (x, y2))
+            """ This loop draws N horizontal and vertical lines """
+            line(self.screen, black_color, (x, y1), (x, y2))  # Vertical lines
             x += h
-            line(self.screen, color, (x1, y), (x2, y))
+            line(self.screen, black_color, (x1, y), (x2, y))  # Horizontal lines
             y += w
 
     def next_turn(self):
