@@ -132,15 +132,16 @@ class MainMenu:
         self.draw()
 
     def draw(self):
-        """  """
+        """ This function draws a menu screen """
         self.set_rend()
         self.screen.blit(self.rend, self.rect)
 
     def set_rend(self):
-        """  """
+        """ This function renders the menu """
         self.rend = self.menu_font.render(self.text, True, self.get_color())
 
     def get_color(self):
+        """ This function changes the color of the button in the menu """
         color_red = (255, 0, 0)
         color_white = (255, 255, 255)
         color_gray = (100, 100, 100)
@@ -154,14 +155,16 @@ class MainMenu:
             return color_gray
 
     def set_rect(self):
+        """ This function is responsible for the interaction of the player with the buttons in the menu. """
         self.set_rend()
         self.rect = self.rend.get_rect()
         self.rect.topleft = self.pos
 
     def new_window(self):
-
+        """ This function creates a new window """
+        color_blue = (159, 182, 205)
         if self.clicked:
-            self.screen.fill((159, 182, 205))
+            self.screen.fill(color_blue)
         else:
             pass
 
