@@ -1,7 +1,8 @@
 from pygame.draw import *
+from abc import ABC, abstractmethod
 
 
-class Unit:
+class Unit(ABC):
     """
     This class describes units
     """
@@ -21,6 +22,7 @@ class Unit:
         self.x = x
         self.y = y
 
+    @abstractmethod
     def draw_unit(self):
         """
         This function draws a unit
@@ -36,6 +38,9 @@ class MeleeUnit(Unit):
     """
     A subclass of units that use melee combat
     """
+
+    def draw_unit(self):
+        pass
 
     def __init__(self, hp, damage, movement, x, y):
         """
@@ -63,6 +68,9 @@ class RangeUnit(Unit):
     """
     A subclass of units that use range combat
     """
+
+    def draw_unit(self):
+        pass
 
     def __init__(self, hp, damage, movement, x, y):
         """
@@ -192,10 +200,10 @@ class Game:
         self.create_new_level()
         self.draw_level()
         units = []
-        for i in range(M):
-            units.append(Unit(self.screen, x1, y1, x2, y2)
+        for i in range(3):
+            units.append(MeleeUnit(self.screen, 15, 6, x, y))
+            units.append(RangeUnit(self.screen, 10, 4, x, y))
         self.units = units
-
 
     def pause_game(self):
         """ The function is responsible for pause during the game """
@@ -218,19 +226,16 @@ class Game:
 
     def next_turn(self):
         """
-
         :return:
         """
 
     def next_round(self):
         """
-
         :return:
         """
 
     def draw_level(self):
         """
-
         :return:
         """
         self.draw_units()
@@ -238,71 +243,71 @@ class Game:
 
     def set_allies(self):
         """
-
         :return:
         """
 
     def set_enemies(self):
         """
-
         :return:
         """
-    class Field:
-        def __init__(self, screen, screen_height, screen_width, N):
-            """
-            This function is responsible for the initial screen characteristics when creating an object of this class.
-            :param screen: The screen that is being created
-            :param screen_height:
-            :param screen_width:
-            :param N:The number of lines vertically and horizontally, respectively
-            """
-            self.screen = screen
-            self.screen_height = screen_height
-            self.screen_width = screen_width
-            self.N = N
+        
+        
+class Field:
+    def __init__(self, screen, screen_height, screen_width, N):
+        """
+        This function is responsible for the initial screen characteristics when creating an object of this class.
+        :param screen: The screen that is being created
+        :param screen_height:
+        :param screen_width:
+        :param N:The number of lines vertically and horizontally, respectively
+        """
+        self.screen = screen
+        self.screen_height = screen_height
+        self.screen_width = screen_width
+        self.N = N
 
-        def draw_field(self):
-            """ This function draws a field """
-            # Top-left coordinate
-            x1 = 0
-            y1 = 0
-            # Top-right coordinate
-            x2 = self.screen_width
-            y2 = self.screen_height
-            black_color = (0, 0, 0)
-            rect(self.screen, black_color, (x1, y1, x2 - x1, y2 - y1), 2)
-            h = (x2 - x1) // (self.N + 1)  # Width of one cell
-            x = x1 + h
-            w = (y2 - y1) // (self.N + 1)  # Height of one cell
-            y = y1 + w
-            for i in range(self.N):
-                """ This loop draws N horizontal and vertical lines """
-                line(self.screen, black_color, (x, y1), (x, y2))  # Vertical lines
-                x += h
-                line(self.screen, black_color, (x1, y), (x2, y))  # Horizontal lines
-                y += w
+    def draw_field(self):
+        """ This function draws a field """
+        # Top-left coordinate
+        x1 = 0
+        y1 = 0
+        # Top-right coordinate
+        x2 = self.screen_width
+        y2 = self.screen_height
+        black_color = (0, 0, 0)
+        rect(self.screen, black_color, (x1, y1, x2 - x1, y2 - y1), 2)
+        h = (x2 - x1) // (self.N + 1)  # Width of one cell
+        x = x1 + h
+        w = (y2 - y1) // (self.N + 1)  # Height of one cell
+        y = y1 + w
+        for i in range(self.N):
+            """ This loop draws N horizontal and vertical lines """
+            line(self.screen, black_color, (x, y1), (x, y2))  # Vertical lines
+            x += h
+            line(self.screen, black_color, (x1, y), (x2, y))  # Horizontal lines
+            y += w
 
-        def set_rend(self):
-            """ This function renders the menu """
-            self.rend = self.cell_font.render(self.text, True, self.get_color())
+    def set_rend(self):
+        """ This function renders the menu """
+        self.rend = self.cell_font.render(self.text, True, self.get_color())
 
-        def get_color(self):
-            """ This function changes the color of the button in the menu """
-            color_red = (255, 0, 0)
-            color_white = (255, 255, 255)
-            color_gray = (100, 100, 100)
+    def get_color(self):
+        """ This function changes the color of the button in the menu """
+        color_red = (255, 0, 0)
+        color_white = (255, 255, 255)
+        color_gray = (100, 100, 100)
 
-            if self.hovered:
-                if self.clicked:
-                    #def move_unit
-                    return color_red
-                else:
-                    return color_white
+        if self.hovered:
+            if self.clicked:
+                #def move_unit
+                return color_red
             else:
-                return color_gray
+                return color_white
+        else:
+            return color_gray
 
-        def set_rect(self):
-            """ This function is responsible for the interaction of the player with the buttons in the menu. """
-            self.set_rend()
-            self.rect = self.rend.get_rect()
-            self.rect.topleft = self.pos
+    def set_rect(self):
+        """ This function is responsible for the interaction of the player with the buttons in the menu. """
+        self.set_rend()
+        self.rect = self.rend.get_rect()
+        self.rect.topleft = self.pos
