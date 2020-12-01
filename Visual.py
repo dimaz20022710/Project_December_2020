@@ -1,4 +1,4 @@
-from pygame import *
+from pygame.draw import *
 class Field:
     def __init__(self, screen, screen_height, screen_width, N):
         """

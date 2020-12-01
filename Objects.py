@@ -191,6 +191,11 @@ class Game:
         self.screen.fill(color_white)
         self.create_new_level()
         self.draw_level()
+        units = []
+        for i in range(M):
+            units.append(Unit(self.screen, x1, y1, x2, y2)
+        self.units = units
+
 
     def pause_game(self):
         """ The function is responsible for pause during the game """
@@ -203,6 +208,13 @@ class Game:
 
     def create_new_level(self):
         """ This function creates a new level """
+        walls = []
+        for i in range(rint(self.N // 4, self.N // 3)):
+            walls.append(Wall(self.screen, rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
+                              rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
+                              rint(1, self.N // 3) * (self.screen_height // (self.N + 1)),
+                              rint(1, self.N // 3) * (self.screen_height // (self.N + 1))))
+        self.walls = walls
 
     def next_turn(self):
         """
@@ -221,7 +233,8 @@ class Game:
 
         :return:
         """
-        self.draw_field()
+        self.draw_units()
+        field.draw_field
 
     def set_allies(self):
         """
@@ -247,6 +260,7 @@ class Game:
             self.screen_height = screen_height
             self.screen_width = screen_width
             self.N = N
+
         def draw_field(self):
             """ This function draws a field """
             # Top-left coordinate
