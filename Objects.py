@@ -1,4 +1,5 @@
 from pygame.draw import *
+from random import randint as rint
 
 
 class Unit:
@@ -108,7 +109,8 @@ class Wall:
 
     def draw_wall(self):
         """ This function draws the wall """
-        rect(self.screen, (0, 0, 0), (self.x, self.y), ())
+        rect(self.screen, (0, 0, 0), (self.x, self.y, self.height, self.width))
+        #rect(self.screen, (255, 0, 0), (self.x, self.y, self.height + self.x, self.width + self.y), 2)
 
 
 class MainMenu:
@@ -202,7 +204,17 @@ class Game:
         """ This function restarts the game """
 
     def create_new_level(self):
-        """ This function creates a new level """
+        """
+        This function creates a new game level
+        :return:
+        """
+        walls = []
+        for i in range(rint(self.N // 4, self.N // 3)):
+            walls.append(Wall(self.screen, rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
+                              rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
+                              rint(1, self.N // 3) * (self.screen_height // (self.N + 1)),
+                              rint(1, self.N // 3) * (self.screen_height // (self.N + 1))))
+        self.walls = walls
 
     def draw_field(self):
         """ This function draws a field """
@@ -243,6 +255,8 @@ class Game:
         :return:
         """
         self.draw_field()
+        for i in self.walls:
+            i.draw_wall()
 
     def set_allies(self):
         """
