@@ -1,6 +1,10 @@
 from pygame.draw import rect, line
 from random import randint as rint
 from abc import ABC, abstractmethod
+#from Interface import Window
+import pygame
+import sys
+from pygame.locals import *
 
 
 class Unit(ABC):
@@ -178,10 +182,65 @@ class MainMenu:
             pass
 
 
+class Window:
+
+    def __init__(self, screen_height, screen_width, N, FPS, game):
+        self.screen_height = screen_height
+        self.screen_width = screen_width
+        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width))
+        self.N = N
+        self.FPS = FPS
+        self.game = game
+
+    def start(self):
+        pygame.init()
+        clock = pygame.time.Clock()
+        finished = False
+        menu_font = pygame.font.Font(None, 40)
+        options = [MainMenu("START GAME", (self.screen_height // 3, self.screen_width // 3), self.screen, menu_font),
+                   MainMenu("EXIT", (2 * self.screen_height // 5 + 20, 2 * self.screen_width // 3), self.screen,
+                            menu_font)]
+        stop = 0
+        while not finished:
+            if stop == 0:
+                for event in pygame.event.get():
+                    if event.type == QUIT:
+                        pygame.quit()
+                        sys.exit()
+                pygame.event.pump()
+                self.screen.fill((0, 0, 0))
+                for option in options:
+                    if option.rect.collidepoint(pygame.mouse.get_pos()):
+                        option.hovered = True
+                        if pygame.mouse.get_pressed() == (1, 0, 0):
+                            option.clicked = True
+                            if option.text == "START GAME":
+                                '''game = Game(pygame.display.set_mode((screen_height, screen_width)), screen_height,
+                                            screen_width, N)'''
+                                self.game.start_game()
+                            else:
+                                pygame.quit()
+                                sys.exit()
+                            stop = 1
+                            break
+                        else:
+                            option.clicked = False
+                    else:
+                        option.hovered = False
+                        option.clicked = False
+                    option.draw()
+                    option.new_window()
+            clock.tick(self.FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    finished = True
+            pygame.display.update()
+
+
 class Game:
     """ This class is responsible for the game process """
 
-    def __init__(self, screen, screen_height, screen_width, N):
+    def __init__(self, screen_height, screen_width, N, FPS):
         """
         This function is responsible for the initial screen characteristics when creating an object of this class.
         :param screen: The screen that is being created
@@ -189,10 +248,16 @@ class Game:
         :param screen_width:
         :param N:The number of lines vertically and horizontally, respectively
         """
-        self.screen = screen
+
         self.screen_height = screen_height
         self.screen_width = screen_width
+        #self.screen = pygame.display.set_mode((self.screen_height, self.screen_width))
         self.N = N
+        self.FPS = FPS
+
+    def start(self, game):
+        window = Window(self.screen_height, self.screen_width, self.N, self.FPS, game)
+        window.start()
 
     def start_game(self):
         """ This function starts the game """
