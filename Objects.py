@@ -1,4 +1,4 @@
-from pygame.draw import *
+from pygame.draw import rect, line
 from abc import ABC, abstractmethod
 
 
