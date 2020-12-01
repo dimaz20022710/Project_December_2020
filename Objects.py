@@ -1,8 +1,9 @@
-from pygame.draw import *
+from pygame.draw import rect, line
 from random import randint as rint
+from abc import ABC, abstractmethod
 
 
-class Unit:
+class Unit(ABC):
     """
     This class describes units
     """
@@ -22,6 +23,7 @@ class Unit:
         self.x = x
         self.y = y
 
+    @abstractmethod
     def draw_unit(self):
         """
         This function draws a unit
@@ -37,6 +39,9 @@ class MeleeUnit(Unit):
     """
     A subclass of units that use melee combat
     """
+
+    def draw_unit(self):
+        pass
 
     def __init__(self, hp, damage, movement, x, y):
         """
@@ -64,6 +69,9 @@ class RangeUnit(Unit):
     """
     A subclass of units that use range combat
     """
+
+    def draw_unit(self):
+        pass
 
     def __init__(self, hp, damage, movement, x, y):
         """
@@ -110,7 +118,6 @@ class Wall:
     def draw_wall(self):
         """ This function draws the wall """
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.height, self.width))
-        #rect(self.screen, (255, 0, 0), (self.x, self.y, self.height + self.x, self.width + self.y), 2)
 
 
 class MainMenu:
