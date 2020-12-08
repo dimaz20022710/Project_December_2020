@@ -99,24 +99,29 @@ class Game:
 
     def pause_game(self):
         """ The function is responsible for pause during the game """
+        pass
 
     def end_game(self):
         """ The function is responsible for the end of the game """
+        pass
 
     def reset_game(self):
         """ This function restarts the game """
+        pass
 
     def next_turn(self):
         """
 
         :return:
         """
+        pass
 
     def next_round(self):
         """
 
         :return:
         """
+        pass
 
     def set_allies(self):
         """
@@ -126,12 +131,12 @@ class Game:
         units_1 = []
         for i in range(rint(1, 2)):
             units_1.append(MeleeUnit(15, 6, 5, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1,
+                                     rint(self.N - 2, self.N) * (self.screen_height // (self.N + 1)), 1,
                                      self.screen, self.cell_size))
             self.melee_number += 1
         for i in range(rint(1, 3)):
             units_1.append(RangeUnit(11, 4, 4, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1,
+                                     rint(self.N - 2, self.N) * (self.screen_height // (self.N + 1)), 1,
                                      self.screen, self.cell_size))
             self.ranged_number += 1
         self.units_1 = units_1
@@ -146,11 +151,11 @@ class Game:
         units_2 = []
         for i in range(self.melee_number):
             units_2.append(MeleeUnit(15, 6, 5, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     rint(1, self.N // 8) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                                     rint(0, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                                      self.cell_size))
         for i in range(self.ranged_number):
             units_2.append(RangeUnit(11, 4, 4, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     rint(1, self.N // 8) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                                     rint(0, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                                      self.cell_size))
         self.units_2 = units_2
         for i in units_2:

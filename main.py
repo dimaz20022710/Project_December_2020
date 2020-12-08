@@ -7,7 +7,7 @@ finished = False
 pygame.init()
 screen_height = 840
 screen_width = screen_height
-N = 19
+N = 39
 screen = pygame.display.set_mode((screen_height, screen_width))
 clock = pygame.time.Clock()
 menu_font = pygame.font.Font(None, 60)

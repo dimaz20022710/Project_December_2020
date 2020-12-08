@@ -32,11 +32,13 @@ class Unit(ABC):
         """
         This function draws a unit
         """
+        pass
 
     def move_unit(self):
         """
         This function describes the movement of the unit
         """
+        pass
 
 
 class MeleeUnit(Unit):
@@ -67,11 +69,13 @@ class MeleeUnit(Unit):
         """
         This function describes unit attacks
         """
+        pass
 
     def special_ability(self):
         """
         This function describes the superpowers of individual units.
         """
+        pass
 
 
 class RangeUnit(Unit):
@@ -102,8 +106,10 @@ class RangeUnit(Unit):
         """
         This function describes unit attacks
         """
+        pass
 
     def special_ability(self):
         """
         This function describes the superpowers of individual units.
         """
+        pass
