@@ -1,6 +1,8 @@
 from pygame.draw import *
+
+
 class Field:
-    def __init__(self, screen, screen_height, screen_width, N):
+    def __init__(self, screen, screen_height, screen_width, N, rend):
         """
         This function is responsible for the initial screen characteristics when creating an object of this class.
         :param screen: The screen that is being created

@@ -1,5 +1,6 @@
 from pygame.draw import rect, line
 from abc import ABC, abstractmethod
+import random
 
 
 class Unit(ABC):
@@ -27,11 +28,13 @@ class Unit(ABC):
         """
         This function draws a unit
         """
+        pass
 
     def move_unit(self):
         """
         This function describes the movement of the unit
         """
+        pass
 
 
 class MeleeUnit(Unit):
@@ -201,9 +204,10 @@ class Game:
         self.draw_level()
         units = []
         for i in range(3):
-            units.append(MeleeUnit(self.screen, 15, 6, x, y))
-            units.append(RangeUnit(self.screen, 10, 4, x, y))
+            units.append(MeleeUnit(self.screen, 15, 6, 0, 0))
+            units.append(RangeUnit(self.screen, 10, 4, 0, 0))
         self.units = units
+            #TODO: заменить координаты
 
     def pause_game(self):
         """ The function is responsible for pause during the game """
@@ -217,11 +221,11 @@ class Game:
     def create_new_level(self):
         """ This function creates a new level """
         walls = []
-        for i in range(rint(self.N // 4, self.N // 3)):
-            walls.append(Wall(self.screen, rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
-                              rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
-                              rint(1, self.N // 3) * (self.screen_height // (self.N + 1)),
-                              rint(1, self.N // 3) * (self.screen_height // (self.N + 1))))
+        for i in range(random.randint(self.N // 4, self.N // 3)):
+            walls.append(Wall(self.screen, random.randint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
+                              random.randint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
+                              random.randint(1, self.N // 3) * (self.screen_height // (self.N + 1)),
+                              random.randint(1, self.N // 3) * (self.screen_height // (self.N + 1))))
         self.walls = walls
 
     def next_turn(self):
@@ -238,8 +242,8 @@ class Game:
         """
         :return:
         """
-        self.draw_units()
-        field.draw_field
+        #self.draw_units()
+        Field(self.screen, self.screen_height, self.screen_width, self.N).draw_field()
 
     def set_allies(self):
         """
