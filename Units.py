@@ -47,8 +47,10 @@ class MeleeUnit(Unit):
     def draw_unit(self):
         if self.side == 1:
             rect(self.screen, (0, 255, 0), (self.x, self.y, self.cell_size, self.cell_size))
+            rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
         else:
             rect(self.screen, (255, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
+            rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size):
         """
@@ -79,8 +81,10 @@ class RangeUnit(Unit):
 
     def draw_unit(self):
         if self.side == 1:
+            rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
             rect(self.screen, (0, 105, 0), (self.x, self.y, self.cell_size, self.cell_size))
         else:
+            rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
             rect(self.screen, (105, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size):

@@ -5,17 +5,17 @@ import Interface
 
 finished = False
 pygame.init()
-screen_height = 600
+screen_height = 840
 screen_width = screen_height
 N = 19
 screen = pygame.display.set_mode((screen_height, screen_width))
 clock = pygame.time.Clock()
-menu_font = pygame.font.Font(None, 40)
-options = [Core.MainMenu("START GAME", (screen_height // 3, screen_width // 3), screen, menu_font),
-           Core.MainMenu("EXIT", (2 * screen_height // 5 + 20, 2 * screen_width // 3), screen,
+menu_font = pygame.font.Font(None, 60)
+options = [Core.MainMenu("START GAME", (screen_height // 3 + 30, screen_width // 3), screen, menu_font),
+           Core.MainMenu("EXIT", (2 * screen_height // 5 + 40, 2 * screen_width // 3), screen,
                          menu_font)]
 FPS = 20
-condition = 0
+condition = 0  # 0 - Menu, 1 - game
 
 while not finished:
     clock.tick(FPS)
