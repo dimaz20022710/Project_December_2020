@@ -209,6 +209,10 @@ class Game:
         self.screen = screen
         self.N = N
         self.cell_size = (self.screen_height // (self.N + 1))
+        self.melee_number = 0
+        self.ranged_number = 0
+        self.units_1 = []
+        self.units_2 = []
 
     def start_game(self):
         """ This function starts the game """
@@ -294,10 +298,12 @@ class Game:
             units_1.append(MeleeUnit(15, 6, 5, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
                                      rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1, self.screen,
                                      self.cell_size))
+            self.melee_number += 1
         for i in range(rint(0, 3)):
             units_1.append(RangeUnit(11, 4, 4, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
                                      rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1, self.screen,
                                      self.cell_size))
+            self.ranged_number += 1
         self.units_1 = units_1
         for i in units_1:
             i.draw_unit()
@@ -308,11 +314,11 @@ class Game:
         :return:
         """
         units_2 = []
-        for i in range(rint(0, 3)):
+        for i in range(self.melee_number):
             units_2.append(MeleeUnit(15, 6, 5, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
                                      rint(1, self.N // 8) * (self.screen_height // (self.N + 1)), 2, self.screen,
                                      self.cell_size))
-        for i in range(rint(0, 3)):
+        for i in range(self.ranged_number):
             units_2.append(RangeUnit(11, 4, 4, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
                                      rint(1, self.N // 8) * (self.screen_height // (self.N + 1)), 2, self.screen,
                                      self.cell_size))
@@ -343,7 +349,7 @@ class Field:
         walls_1 = []
         for i in range(rint(self.N // 4, self.N // 3)):
             walls.append(Wall(self.screen, rint(1, self.N - 3) * (self.screen_height // (self.N + 1)),
-                              rint(1, self.N // 2 - 2) * (self.screen_height // (self.N + 1)),
+                              rint(3, self.N // 2 - 2) * (self.screen_height // (self.N + 1)),
                               rint(1, self.N // 3) * (self.screen_height // (self.N + 1)),
                               rint(1, self.N // 3) * (self.screen_height // (self.N + 1))))
         for i in walls:
