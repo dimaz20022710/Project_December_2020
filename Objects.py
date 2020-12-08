@@ -1,9 +1,6 @@
 from pygame.draw import rect, line
 from random import randint as rint
 from abc import ABC, abstractmethod
-import pygame
-import sys
-from pygame.locals import *
 
 
 class Unit(ABC):
@@ -133,7 +130,7 @@ class Wall:
         """ This function draws the wall """
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.height, self.width))
 
-
+'''
 class MainMenu:
     """ This is the class responsible for the main menu """
     hovered = False
@@ -325,7 +322,7 @@ class Game:
         self.units_2 = units_2
         for i in units_2:
             i.draw_unit()
-
+'''
 
 class Field:
     hovered = False

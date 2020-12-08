@@ -1,6 +1,5 @@
 import pygame
 import sys
-import Objects
 import Core
 import Interface
 
@@ -12,16 +11,13 @@ N = 19
 screen = pygame.display.set_mode((screen_height, screen_width))
 clock = pygame.time.Clock()
 menu_font = pygame.font.Font(None, 40)
-options = [Objects.MainMenu("START GAME", (screen_height // 3, screen_width // 3), screen, menu_font),
-           Objects.MainMenu("EXIT", (2 * screen_height // 5 + 20, 2 * screen_width // 3), screen,
-                            menu_font)]
+options = [Core.MainMenu("START GAME", (screen_height // 3, screen_width // 3), screen, menu_font),
+           Core.MainMenu("EXIT", (2 * screen_height // 5 + 20, 2 * screen_width // 3), screen,
+                         menu_font)]
 FPS = 20
 condition = 0
 
-
 while not finished:
-    #pygame.event.pump()
-    #screen.fill((0, 0, 0))
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -30,7 +26,7 @@ while not finished:
             if condition == 0:
                 text = Interface.menu_event(options)
                 if text == "START GAME":
-                    game = Objects.Game(screen, screen_height, screen_width, N)
+                    game = Core.Game(screen, screen_height, screen_width, N)
                     game.start_game()
                     condition = 1
                 elif text == "EXIT":
@@ -41,4 +37,3 @@ while not finished:
                 Interface.game_event(event)
 
     pygame.display.update()
-
