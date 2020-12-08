@@ -1,8 +1,7 @@
 from pygame.draw import rect, line
 from random import randint as rint
-from abc import ABC, abstractmethod
 
-
+'''
 class Unit(ABC):
     """
     This class describes units
@@ -104,7 +103,7 @@ class RangeUnit(Unit):
         """
         This function describes the superpowers of individual units.
         """
-
+'''
 
 class Wall:
     """

@@ -1,5 +1,6 @@
-from Objects import Unit, MeleeUnit, RangeUnit, Wall, Field
+from Objects import Wall, Field
 from random import randint as rint
+from Units import MeleeUnit, RangeUnit
 
 
 class MainMenu:
@@ -112,15 +113,6 @@ class Game:
 
         :return:
         """
-
-    def draw_level(self):
-        """
-
-        :return:
-        """
-        self.draw_field()
-        for i in self.walls:
-            i.draw_wall()
 
     def set_allies(self):
         """
