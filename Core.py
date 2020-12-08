@@ -73,6 +73,7 @@ class Game:
         :param N:The number of lines vertically and horizontally, respectively
         """
 
+        self.unit_order = []
         self.screen_height = screen_height
         self.screen_width = screen_width
         self.screen = screen
@@ -92,6 +93,9 @@ class Game:
         field.draw_level()
         self.set_allies()
         self.set_enemies()
+        for i in range(len(self.units_1)):
+            self.unit_order.append(self.units_1[i])
+            self.unit_order.append(self.units_2[i])
 
     def pause_game(self):
         """ The function is responsible for pause during the game """
@@ -120,15 +124,15 @@ class Game:
         :return:
         """
         units_1 = []
-        for i in range(rint(0, 3)):
+        for i in range(rint(1, 2)):
             units_1.append(MeleeUnit(15, 6, 5, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1, self.screen,
-                                     self.cell_size))
+                                     rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1,
+                                     self.screen, self.cell_size))
             self.melee_number += 1
-        for i in range(rint(0, 3)):
+        for i in range(rint(1, 3)):
             units_1.append(RangeUnit(11, 4, 4, rint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1, self.screen,
-                                     self.cell_size))
+                                     rint(self.N - self.N // 8, self.N - 1) * (self.screen_height // (self.N + 1)), 1,
+                                     self.screen, self.cell_size))
             self.ranged_number += 1
         self.units_1 = units_1
         for i in units_1:
