@@ -17,9 +17,22 @@ def menu_event(options):
         option.new_window()
 
 
-def game_event(event):
+def game_event(event, signs, cell_size, cells):
+
     if event.type == pygame.MOUSEBUTTONDOWN:
-        pass
+        for sign in signs:
+            if sign.rect.collidepoint(event.pos):
+                sign.hovered = True
+                if sign == signs[0]:
+                    pass
+                if sign == signs[1]:
+                    pass
+        for i in cells:
+            for j in i:
+                if j[2] == 0:
+                    pass
+                if j[2] == 1:
+                    pass
 
 
 
