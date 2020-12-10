@@ -32,6 +32,8 @@ class Unit(ABC):
         self.current_movement = movement
         self.current_hp = hp
         self.hit_status = 1
+        self.cooldown = 0
+        self.current_damage = self.damage
 
     @abstractmethod
     def draw_unit(self):
@@ -92,13 +94,15 @@ class MeleeUnit(Unit):
         """
         This function describes unit attacks
         """
-        aim.hp -= self.damage
+        aim.current_hp -= self.damage
 
     def special_ability(self):
         """
         This function describes the superpowers of individual units.
         """
-        pass
+        if self.cooldown == 0:
+            self.current_movement += self.movement
+            self.cooldown = 3
 
 
 class RangeUnit(Unit):
@@ -131,10 +135,12 @@ class RangeUnit(Unit):
         """
         This function describes unit attacks
         """
-        aim.hp -= self.damage
+        aim.current_hp -= self.current_damage
 
     def special_ability(self):
         """
         This function describes the superpowers of individual units.
         """
-        pass
+        if self.cooldown == 0:
+            self.current_damage += self.damage
+            self.cooldown = 3
