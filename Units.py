@@ -26,10 +26,12 @@ class Unit(ABC):
         self.x = x
         self.y = y
         self.pos = (x, y)
-        self.clicked = False
         self.side = side
         self.screen = screen
         self.cell_size = cell_size
+        self.current_movement = movement
+        self.current_hp = hp
+        self.hit_status = 1
 
     @abstractmethod
     def draw_unit(self):
@@ -38,11 +40,27 @@ class Unit(ABC):
         """
         pass
 
-    def move_unit(self):
+    def light(self):
+        rect(self.screen, (255, 255, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+
+    def unlight(self):
+        rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size), 2)
+        rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+
+    def erase_pic(self):
+        rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size))
+        rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+
+    def move_unit(self, x, y):
         """
         This function describes the movement of the unit
         """
-        pass
+        self.erase_pic()
+        self.unlight()
+        self.x = x
+        self.y = y
+        self.draw_unit()
+        self.light()
 
 
 class MeleeUnit(Unit):
@@ -60,6 +78,7 @@ class MeleeUnit(Unit):
         :param y: Unit's coordinate y
         """
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size)
+        self.type = "Melee"
 
     def draw_unit(self):
         if self.side == 1:
@@ -69,11 +88,11 @@ class MeleeUnit(Unit):
             rect(self.screen, (255, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
-    def hit(self):
+    def hit(self, aim):
         """
         This function describes unit attacks
         """
-        pass
+        aim.hp -= self.damage
 
     def special_ability(self):
         """
@@ -97,6 +116,7 @@ class RangeUnit(Unit):
         :param y: Unit's coordinate y
         """
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size)
+        self.type = 'Range'
 
     def draw_unit(self):
         if self.side == 1:
@@ -107,11 +127,11 @@ class RangeUnit(Unit):
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
             rect(self.screen, (105, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
 
-    def hit(self):
+    def hit(self, aim):
         """
         This function describes unit attacks
         """
-        pass
+        aim.hp -= self.damage
 
     def special_ability(self):
         """

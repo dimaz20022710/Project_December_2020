@@ -53,7 +53,7 @@ class Field:
             self.cells.append([])
             for j in range(1, self.N):
                 rect(self.screen, (0, 0, 0), (i * self.cell_size, j * self.cell_size, self.cell_size, self.cell_size),
-                     1)
+                     2)
                 self.cells[i].append([i * self.cell_size, j * self.cell_size, 0])
         self.draw_walls()
         return self.cells
@@ -64,42 +64,27 @@ class Field:
         for i in range(rint(self.N // 4, self.N // 3)):
             walls.append(Wall(self.screen, rint(1, self.N - 3) * self.cell_size,
                               rint(3, self.N // 2 - 2) * self.cell_size,
-                              rint(1, self.N // 3) * self.cell_size,
-                              rint(1, self.N // 3) * self.cell_size))
-            self.cells[walls[i].x // self.cell_size][walls[i].y // self.cell_size][2] = -1
+                              rint(1, self.N // 4) * self.cell_size,
+                              rint(1, self.N // 4) * self.cell_size))
+            for j in range(walls[i].height // self.cell_size):
+                for k in range(walls[i].width // self.cell_size):
+                    self.cells[walls[i].x // self.cell_size + j][
+                        walls[i].y // self.cell_size + k - 1][2] = -1
+
+        ind = 0
         for i in walls:
             walls_1.append(Wall(self.screen, i.x, self.screen_width - i.y - i.width, i.height, i.width))
+            for j in range(walls_1[ind].height // self.cell_size):
+                for k in range(walls_1[ind].width // self.cell_size):
+                    self.cells[walls_1[ind].x // self.cell_size + j][
+                        walls_1[ind].y // self.cell_size + k - 1][2] = -1
+            ind += 1
         self.walls = walls
         self.walls_1 = walls_1
         for i in self.walls:
             i.draw_wall()
         for i in self.walls_1:
             i.draw_wall()
-
-    def set_rend(self):
-        """ This function renders the menu """
-        self.rend = self.cell_font.render(self.text, True, self.get_color())
-
-    def get_color(self):
-        """ This function changes the color of the button in the menu """
-        color_red = (255, 0, 0)
-        color_white = (255, 255, 255)
-        color_gray = (100, 100, 100)
-
-        if self.hovered:
-            if self.clicked:
-                # def move_unit
-                return color_red
-            else:
-                return color_white
-        else:
-            return color_gray
-
-    def set_rect(self):
-        """ This function is responsible for the interaction of the player with the buttons in the menu. """
-        self.set_rend()
-        self.rect = self.rend.get_rect()
-        self.rect.topleft = self.pos
 
 
 class Bar:
