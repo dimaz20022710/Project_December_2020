@@ -1,6 +1,6 @@
 from Objects import Field
 from random import randint as randint
-from Units import MeleeUnit, RangeUnit
+from Units import Tank, Rogue, Support, Wizard, Sniper
 from pygame.draw import rect
 
 
@@ -82,8 +82,6 @@ class Game:
         self.signs = signs
         self.font = f1
         self.cell_size = (self.screen_height // (self.N + 1))
-        self.melee_number = 0
-        self.ranged_number = 0
         self.units_1 = []
         self.units_2 = []
         self.cells = []
@@ -114,9 +112,10 @@ class Game:
         rect(self.screen, (230, 230, 0), (x, y, self.cell_size, self.cell_size))
         rect(self.screen, (0, 0, 0), (x, y, self.cell_size, self.cell_size), 2)
 
-    def unlighten_cell(self, x, y):
-        rect(self.screen, (255, 255, 255), (x, y, self.cell_size, self.cell_size))
-        rect(self.screen, (0, 0, 0), (x, y, self.cell_size, self.cell_size), 2)
+    def unit_death(self, aim):
+        aim.erase_pic()
+        self.cells[aim.x // self.cell_size][aim.y // self.cell_size - 1][2] = 0
+        del self.unit_order[self.unit_order.index(aim)]
 
     def redraw(self):
         for c in self.cells:
@@ -132,10 +131,6 @@ class Game:
                             unit.draw_unit()
 
     def draw_moves(self):
-        for c in self.cells:
-            for cell in c:
-                if cell[2] == 0:
-                    self.unlighten_cell(cell[0], cell[1])
         for i in range(-self.unit.current_movement, self.unit.current_movement + 1):
             for j in range(-self.unit.current_movement, self.unit.current_movement + 1):
                 if self.unit.current_movement >= abs(i) + abs(j) > 0:
@@ -147,14 +142,15 @@ class Game:
             unit.hit_bar()
 
     def update_info(self):
-        rect(self.screen, (255, 255, 255), (0, 0, self.screen_height * 2 // 3, self.cell_size))
+        rect(self.screen, (255, 255, 255), (0, 0, self.screen_height, self.cell_size))
         text = self.font.render(
-            'Player ' + str(self.unit.side) + ', unit ' + str((self.turn + 1) // 2) + ', hp - ' + str(
+            'Player ' + str(self.unit.side) + ' , ' + str(self.unit.subclass) + ', hp - ' + str(
                 self.unit.current_hp) + ', movement - ' + str(
-                self.unit.current_movement) + ', cd - ' + str(self.unit.cooldown) + ', hit - ' + str(
-                self.unit.hit_status), False,
+                self.unit.current_movement) + ', hit - ' + str(
+                self.unit.hit_status) + ', cd1 - ' + str(self.unit.cooldown1) + ', cd2 - ' + str(self.unit.cooldown2)
+            + ', cd3 - ' + str(self.unit.cooldown3) + ', cd4 - ' + str(self.unit.cooldown4), False,
             (0, 0, 0))
-        self.screen.blit(text, (15, 5))
+        self.screen.blit(text, (15, 0))
 
     def next_turn(self):
         """
@@ -165,6 +161,16 @@ class Game:
         self.turn += 1
         self.unit = self.unit_order[self.turn - 1]
         self.unit.light()
+        if not self.unit.protection:
+            if self.unit.agred:
+                if self.unit.side == 1:
+                    self.unit.hit(self.units_2[0])
+                else:
+                    self.unit.hit(self.units_1[0])
+                self.unit.agred = False
+            if self.unit.stunned:
+                self.unit.hit_status = 0
+                self.unit.stunned = False
         self.update_info()
 
     def next_round(self):
@@ -172,39 +178,51 @@ class Game:
 
         :return:
         """
-        self.unit.unlight()
         self.turn = 1
-        self.unit = self.unit_order[self.turn - 1]
-        self.unit.light()
-        self.update_info()
+        self.next_turn()
         for u in self.unit_order:
             u.hit_status = 1
+            u.back_dmg = 0
             u.current_movement = u.movement
             u.current_damage = u.damage
-            if u.cooldown > 0:
-                u.cooldown -= 1
+            if u.cooldown1 > 0:
+                u.cooldown1 -= 1
+            if u.cooldown2 > 0:
+                u.cooldown2 -= 1
+            if u.cooldown3 > 0:
+                u.cooldown3 -= 1
+            if u.cooldown4 > 0:
+                u.cooldown4 -= 1
+        self.update_info()
 
     def set_allies(self):
         """
 
         :return:
         """
-        units_1 = []
-        for i in range(randint(1, 2)):
-            units_1.append(MeleeUnit(15, 6, self.N // 3, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     randint(self.N - 2, self.N - 1) * (self.screen_height // (self.N + 1)), 1,
-                                     self.screen, self.cell_size))
-            self.melee_number += 1
-            self.cells[units_1[i].x // self.cell_size][units_1[i].y // self.cell_size - 1][2] = 1
-        for i in range(randint(1, 3)):
-            units_1.append(RangeUnit(11, 4, self.N // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     randint(self.N - 2, self.N - 1) * (self.screen_height // (self.N + 1)), 1,
-                                     self.screen, self.cell_size))
-            self.ranged_number += 1
-            self.cells[units_1[i + self.melee_number].x // self.cell_size][
-                units_1[i + self.melee_number].y // self.cell_size - 1][2] = 1
-        self.units_1 = units_1
-        for i in units_1:
+        self.units_1.append(
+            Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
+                 randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
+                 self.cell_size, self.cells))
+        self.units_1.append(
+            Rogue(60, 18, (self.N + 1) // 3, randint(1, self.N - 1) * self.cell_size,
+                  randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
+                  self.cell_size, self.cells))
+        self.units_1.append(
+            Wizard(55, 8, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
+                   randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
+                   self.cell_size, self.cells))
+        self.units_1.append(
+            Sniper(60, 15, (self.N + 1) // 5, randint(1, self.N - 1) * self.cell_size,
+                   randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
+                   self.cell_size, self.cells))
+        self.units_1.append(
+            Support(70, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
+                    randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
+                    self.cell_size, self.cells))
+        for i in range(5):
+            self.cells[self.units_1[i].x // self.cell_size][self.units_1[i].y // self.cell_size - 1][2] = 1
+        for i in self.units_1:
             i.draw_unit()
 
     def set_enemies(self):
@@ -212,18 +230,50 @@ class Game:
 
         :return:
         """
-        units_2 = []
-        for i in range(self.melee_number):
-            units_2.append(MeleeUnit(15, 6, self.N // 3, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
-                                     self.cell_size))
-            self.cells[units_2[i].x // self.cell_size][units_2[i].y // self.cell_size - 1][2] = 1
-        for i in range(self.ranged_number):
-            units_2.append(RangeUnit(11, 4, self.N // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
-                                     randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
-                                     self.cell_size))
-            self.cells[units_2[i + self.melee_number].x // self.cell_size][
-                units_2[i + self.melee_number].y // self.cell_size - 1][2] = 1
-        self.units_2 = units_2
-        for i in units_2:
+        self.units_2.append(
+            Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+                 randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                 self.cell_size, self.cells))
+        self.units_2.append(
+            Rogue(60, 18, (self.N + 1) // 3, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+                  randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                  self.cell_size, self.cells))
+        self.units_2.append(
+            Wizard(55, 8, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+                   randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                   self.cell_size, self.cells))
+        self.units_2.append(
+            Sniper(60, 15, (self.N + 1) // 5, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+                   randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                   self.cell_size, self.cells))
+        self.units_2.append(
+            Support(70, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+                    randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
+                    self.cell_size, self.cells))
+        for i in range(5):
+            self.cells[self.units_2[i].x // self.cell_size][self.units_2[i].y // self.cell_size - 1][2] = 1
+        for i in self.units_2:
             i.draw_unit()
+
+    def use_ability(self, cell):
+        aim = 0
+        for unit in self.unit_order:
+            if unit.x == cell[0] and unit.y == cell[1]:
+                if self.unit.ability == 1:
+                    self.unit.special_ability1(unit)
+                if self.unit.ability == 2:
+                    self.unit.special_ability2(unit)
+                if self.unit.ability == 3:
+                    self.unit.special_ability3(unit)
+                if self.unit.ability == 4:
+                    self.unit.special_ability4(unit)
+                aim += 1
+        if aim == 0:
+            if self.unit.ability == 1:
+                self.unit.special_ability1(cell)
+            if self.unit.ability == 2:
+                self.unit.special_ability2(cell)
+            if self.unit.ability == 3:
+                self.unit.special_ability3(cell)
+            if self.unit.ability == 4:
+                self.unit.special_ability4(cell)

@@ -20,11 +20,15 @@ f1 = pygame.font.Font(None, 30)
 options = [Core.MainMenu("START GAME", (screen_height // 3 + 30, screen_width // 3), screen, menu_font),
            Core.MainMenu("EXIT", (2 * screen_height // 5 + 40, 2 * screen_width // 3), screen,
                          menu_font)]
-signs = [Bar("End turn", (cell_size * N // 3, cell_size * N + 15), screen,
+signs = [Bar("End turn", (cell_size * 2 * N // 3, cell_size * N + 15), screen,
              pygame.font.Font(None, 30)),
-         Bar("Exit Game", (cell_size * N * 2 // 3, cell_size * N + 15), screen,
-             pygame.font.Font(None, 30)), Bar("Special ability", (cell_size * 3 * N // 4, 5), screen,
-                                              pygame.font.Font(None, 30))]
+         Bar("Exit Game", (cell_size * N * 5 // 6 + 20, cell_size * N + 15), screen,
+             pygame.font.Font(None, 30)),
+         Bar("1", (cell_size * N // 10, cell_size * N + 15), screen,
+             f1), Bar("2", (cell_size * N // 10 + cell_size * 2, cell_size * N + 15), screen,
+                      f1), Bar("3", (cell_size * N // 10 + cell_size * 4, cell_size * N + 15), screen,
+                               f1), Bar("4", (cell_size * N // 10 + cell_size * 6, cell_size * N + 15), screen,
+                                        f1)]
 game = Core.Game(screen, screen_height, screen_width, N, signs, f1)
 
 while not finished:
@@ -59,7 +63,7 @@ while not finished:
                                  pygame.font.Font(None, 30)),
                              Bar("Special ability", (cell_size * 3 * N // 4, 5), screen,
                                  pygame.font.Font(None, 30))]
-                if game.unit.current_movement <= 0 and game.unit.hit_status == 0:
+                if game.unit.hit_status == 0:
                     if game.unit == game.unit_order[len(game.unit_order) - 1]:
                         game.next_round()
                     else:
