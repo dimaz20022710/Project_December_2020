@@ -23,7 +23,7 @@ options = [Core.MainMenu("START GAME", (screen_height // 3 + 30, screen_width //
 signs = [Bar("End turn", (cell_size * N // 3, cell_size * N + 15), screen,
              pygame.font.Font(None, 30)),
          Bar("Exit Game", (cell_size * N * 2 // 3, cell_size * N + 15), screen,
-             pygame.font.Font(None, 30)), Bar("Special ability", (cell_size * 3 * N // 4, 15), screen,
+             pygame.font.Font(None, 30)), Bar("Special ability", (cell_size * 3 * N // 4, 5), screen,
                                               pygame.font.Font(None, 30))]
 game = Core.Game(screen, screen_height, screen_width, N, signs, f1)
 
@@ -47,6 +47,8 @@ while not finished:
                     pygame.quit()
                     sys.exit()
             else:
+                game.redraw()
+                game.draw_moves()
                 finish = Interface.game_event(event, signs, cell_size, game.cells, game.unit, game.unit_order, game)
                 if finish == 1:
                     condition = 0
@@ -54,7 +56,7 @@ while not finished:
                                  pygame.font.Font(None, 30)),
                              Bar("Exit Game", (cell_size * N * 2 // 3, cell_size * N + 15), screen,
                                  pygame.font.Font(None, 30)),
-                             Bar("Special ability", (cell_size * 3 * N // 4, 15), screen,
+                             Bar("Special ability", (cell_size * 3 * N // 4, 5), screen,
                                  pygame.font.Font(None, 30))]
                 if game.unit.current_movement <= 0 and game.unit.hit_status == 0:
                     if game.unit == game.unit_order[len(game.unit_order) - 1]:

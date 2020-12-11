@@ -110,14 +110,51 @@ class Game:
         """ The function is responsible for the end of the game """
         pass
 
+    def lighten_cell(self, x, y):
+        rect(self.screen, (230, 230, 0), (x, y, self.cell_size, self.cell_size))
+        rect(self.screen, (0, 0, 0), (x, y, self.cell_size, self.cell_size), 2)
+
+    def unlighten_cell(self, x, y):
+        rect(self.screen, (255, 255, 255), (x, y, self.cell_size, self.cell_size))
+        rect(self.screen, (0, 0, 0), (x, y, self.cell_size, self.cell_size), 2)
+
+    def redraw(self):
+        for c in self.cells:
+            for cell in c:
+                if cell[2] == -1:
+                    rect(self.screen, (0, 0, 0), (cell[0], cell[1], self.cell_size, self.cell_size))
+                if cell[2] == 0:
+                    rect(self.screen, (255, 255, 255), (cell[0], cell[1], self.cell_size, self.cell_size))
+                    rect(self.screen, (0, 0, 0), (cell[0], cell[1], self.cell_size, self.cell_size), 2)
+                if cell[2] == 1:
+                    for unit in self.unit_order:
+                        if cell[0] == unit.x and cell[1] == unit.y:
+                            unit.draw_unit()
+
+    def draw_moves(self):
+        for c in self.cells:
+            for cell in c:
+                if cell[2] == 0:
+                    self.unlighten_cell(cell[0], cell[1])
+        for i in range(-self.unit.current_movement, self.unit.current_movement + 1):
+            for j in range(-self.unit.current_movement, self.unit.current_movement + 1):
+                if self.unit.current_movement >= abs(i) + abs(j) > 0:
+                    if (self.N + 1 > self.unit.x // self.cell_size + i >= 0) and (
+                            self.N > self.unit.y // self.cell_size + j > 0):
+                        if self.cells[self.unit.x // self.cell_size + i][self.unit.y // self.cell_size + j - 1][2] == 0:
+                            self.lighten_cell(self.unit.x + i * self.cell_size, self.unit.y + j * self.cell_size)
+        for unit in self.unit_order:
+            unit.hit_bar()
+
     def update_info(self):
         rect(self.screen, (255, 255, 255), (0, 0, self.screen_height * 2 // 3, self.cell_size))
         text = self.font.render(
             'Player ' + str(self.unit.side) + ', unit ' + str((self.turn + 1) // 2) + ', hp - ' + str(
                 self.unit.current_hp) + ', movement - ' + str(
-                self.unit.current_movement) + ', cooldown - ' + str(self.unit.cooldown), False,
+                self.unit.current_movement) + ', cd - ' + str(self.unit.cooldown) + ', hit - ' + str(
+                self.unit.hit_status), False,
             (0, 0, 0))
-        self.screen.blit(text, (15, 15))
+        self.screen.blit(text, (15, 5))
 
     def next_turn(self):
         """

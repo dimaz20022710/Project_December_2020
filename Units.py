@@ -53,6 +53,15 @@ class Unit(ABC):
         rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size))
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
+    def hit_bar(self):
+        if self.side == 1:
+            rect(self.screen, (0, 100, 0), (self.x, self.y - 20, self.cell_size, 10))
+            rect(self.screen, (0, 200, 0), (self.x, self.y - 20, self.cell_size * self.current_hp // self.hp, 10))
+        else:
+            rect(self.screen, (100, 0, 0), (self.x, self.y - 20, self.cell_size, 10))
+            rect(self.screen, (200, 0, 0), (self.x, self.y - 20, self.cell_size * self.current_hp // self.hp, 10))
+        rect(self.screen, (0, 0, 0), (self.x, self.y - 20, self.cell_size, 10), 1)
+
     def move_unit(self, x, y):
         """
         This function describes the movement of the unit
@@ -89,6 +98,7 @@ class MeleeUnit(Unit):
         else:
             rect(self.screen, (255, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+        self.hit_bar()
 
     def hit(self, aim):
         """
@@ -130,6 +140,7 @@ class RangeUnit(Unit):
         else:
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
             rect(self.screen, (105, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
+        self.hit_bar()
 
     def hit(self, aim):
         """
