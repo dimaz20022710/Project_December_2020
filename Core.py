@@ -172,13 +172,14 @@ class Game:
                 self.unit.hit_status = 0
                 self.unit.stunned -= 1
         self.update_info()
+        print(self.unit_order)
 
     def next_round(self):
         """
 
         :return:
         """
-        self.turn = 1
+        self.turn = 0
         self.next_turn()
         for u in self.unit_order:
             u.hit_status = 1

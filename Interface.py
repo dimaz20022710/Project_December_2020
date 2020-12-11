@@ -80,5 +80,6 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                     if (event.pos[0] - j[0] > 0) and (event.pos[0] - j[0] < cell_size) and (event.pos[1] - j[1] > 0) and (
                             event.pos[1] - j[1] < cell_size):
                         game.use_ability(j)
+                        game.update_info()
     return 0
 

@@ -181,6 +181,7 @@ class RangeUnit(Unit, ABC):
         """
         aim.current_hp -= self.current_damage
         self.hit_status -= 1
+        self.current_hp -= aim.back_dmg
 
 
 class Tank(MeleeUnit):
@@ -253,12 +254,13 @@ class Rogue(MeleeUnit):
 
     def special_ability1(self, unit):
         """
-        Rooted
+        This function describes the superpowers of individual units.
         """
         if self.cooldown1 == 0:
-            unit.current_movement = 0
-            self.cooldown1 = 3
-            self.clicked = False
+            if type(unit) != list:
+                unit.current_movement = 0
+                self.cooldown1 = 3
+                self.clicked = False
         else:
             self.clicked = False
 
@@ -416,9 +418,10 @@ class Sniper(RangeUnit):
         This function describes the superpowers of individual units.
         """
         if self.cooldown4 == 0:
-            unit.movement -= unit.movement // 4
-            self.cooldown4 = 4
-            self.clicked = False
+            if type(unit) != list:
+                unit.movement -= unit.movement // 3
+                self.cooldown4 = 4
+                self.clicked = False
         else:
             self.clicked = False
 
@@ -444,6 +447,8 @@ class Support(MeleeUnit):
         if self.cooldown1 == 0:
             if type(unit) != list:
                 unit.current_hp += 20
+                if unit.current_hp > unit.hp:
+                    unit.current_hp = unit.hp
                 self.cooldown1 = 2
                 self.clicked = False
         else:
@@ -481,6 +486,8 @@ class Support(MeleeUnit):
         if self.cooldown4 == 0:
             if type(unit) != list:
                 unit.current_hp += 50
+                if unit.current_hp > unit.hp:
+                    unit.current_hp = unit.hp
                 self.cooldown4 = 4
                 self.clicked = False
         else:

@@ -7,7 +7,7 @@ from Objects import Bar
 finished = False
 screen_height = 840
 screen_width = screen_height
-N = 19
+N = 23
 cell_size = screen_height // (N + 1)
 FPS = 30
 condition = 0  # 0 - Menu, 1 - game
