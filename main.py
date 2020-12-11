@@ -9,7 +9,7 @@ screen_height = 840
 screen_width = screen_height
 N = 19
 cell_size = screen_height // (N + 1)
-FPS = 20
+FPS = 30
 condition = 0  # 0 - Menu, 1 - game
 
 pygame.init()
@@ -49,6 +49,7 @@ while not finished:
             else:
                 game.redraw()
                 game.draw_moves()
+                game.unit.light()
                 finish = Interface.game_event(event, signs, cell_size, game.cells, game.unit, game.unit_order, game)
                 if finish == 1:
                     condition = 0

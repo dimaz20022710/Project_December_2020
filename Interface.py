@@ -53,12 +53,14 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                                         unit.hit_status -= 1
                                         if aim.current_hp <= 0:
                                             aim.erase_pic()
-                                            del order[order.index(aim)]
+                                            game.cells[aim.x // cell_size][aim.y // cell_size - 1][2] = 0
+                                            del game.unit_order[game.unit_order.index(aim)]
                                 else:
                                     unit.hit(aim)
                                     unit.hit_status -= 1
                                     if aim.current_hp <= 0:
                                         aim.erase_pic()
-                                        del order[order.index(aim)]
+                                        game.cells[aim.x // cell_size][aim.y // cell_size - 1][2] = 0
+                                        del game.unit_order[game.unit_order.index(aim)]
                                 game.update_info()
     return 0
