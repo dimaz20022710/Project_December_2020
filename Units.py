@@ -40,9 +40,9 @@ class Unit(ABC):
         self.cooldown4 = 0
         self.back_dmg = 0
         self.clicked = False
-        self.agred = False
-        self.stunned = False
-        self.protection = False
+        self.agred = 0
+        self.stunned = 0
+        self.protection = 0
         self.ability = 0
 
     @abstractmethod
@@ -199,7 +199,7 @@ class Tank(MeleeUnit):
 
     def special_ability1(self, cell):
         """
-        This function describes the superpowers of individual units.
+        Blaidmail
         """
         if self.cooldown1 == 0:
             self.back_dmg = 15
@@ -208,7 +208,7 @@ class Tank(MeleeUnit):
 
     def special_ability2(self, cell):
         """
-        This function describes the superpowers of individual units.
+        Speed up!
         """
         if self.cooldown2 == 0:
             self.current_movement += self.movement
@@ -217,7 +217,7 @@ class Tank(MeleeUnit):
 
     def special_ability3(self, cell):
         """
-        This function describes the superpowers of individual units.
+        <Passive> heal
         """
         if self.cooldown3 == 0:
             self.current_hp += 5
@@ -226,12 +226,12 @@ class Tank(MeleeUnit):
 
     def special_ability4(self, unit):
         """
-        This function describes the superpowers of individual units.
+        Duel
         """
         if self.cooldown4 == 0:
             if type(unit) != list:
-                unit.agred = True
-                self.cooldown4 = 4
+                unit.agred = 2
+                self.cooldown4 = 5
                 self.clicked = False
         else:
             self.clicked = False
@@ -253,7 +253,7 @@ class Rogue(MeleeUnit):
 
     def special_ability1(self, unit):
         """
-        This function describes the superpowers of individual units.
+        Rooted
         """
         if self.cooldown1 == 0:
             unit.current_movement = 0
@@ -264,7 +264,7 @@ class Rogue(MeleeUnit):
 
     def special_ability2(self, cell):
         """
-        This function describes the superpowers of individual units.
+        Additional hit
         """
         if self.cooldown2 == 0:
             self.hit_status += 1
@@ -275,18 +275,18 @@ class Rogue(MeleeUnit):
 
     def special_ability3(self, cell):
         """
-        This function describes the superpowers of individual units.
+        Critical dmg
         """
         if self.cooldown3 == 0:
-            self.current_damage += self.damage // 2
-            self.cooldown3 = 1
+            self.current_damage += self.damage * 2 // 3
+            self.cooldown3 = 2
             self.clicked = False
         else:
             self.clicked = False
 
     def special_ability4(self, cell):
         """
-        This function describes the superpowers of individual units.
+        Instant teleportation
         """
         if self.cooldown4 == 0:
             if type(cell) == list:
@@ -318,7 +318,7 @@ class Wizard(RangeUnit):
         """
         if self.cooldown1 == 0:
             if type(unit) != list:
-                unit.stunned = True
+                unit.stunned = 2
                 self.cooldown1 = 4
                 self.clicked = False
         else:
@@ -344,7 +344,7 @@ class Wizard(RangeUnit):
             if type(unit) != list:
                 unit.current_hp -= 10
                 unit.current_movement //= 2
-                self.cooldown3 = 3
+                self.cooldown3 = 2
                 self.clicked = False
         else:
             self.clicked = False
@@ -455,7 +455,7 @@ class Support(MeleeUnit):
         """
         if self.cooldown2 == 0:
             if type(unit) != list:
-                unit.protection = True
+                unit.protection = 2
                 self.cooldown2 = 2
                 self.clicked = False
         else:
@@ -468,7 +468,7 @@ class Support(MeleeUnit):
         if self.cooldown3 == 0:
             if type(unit) != list:
                 unit.current_hp -= 15
-                unit.stunned = True
+                unit.stunned = 2
                 self.cooldown3 = 4
                 self.clicked = False
         else:

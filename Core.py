@@ -161,16 +161,16 @@ class Game:
         self.turn += 1
         self.unit = self.unit_order[self.turn - 1]
         self.unit.light()
-        if not self.unit.protection:
-            if self.unit.agred:
+        if self.unit.protection <= 0:
+            if self.unit.agred > 0:
                 if self.unit.side == 1:
                     self.unit.hit(self.units_2[0])
                 else:
                     self.unit.hit(self.units_1[0])
-                self.unit.agred = False
-            if self.unit.stunned:
+                self.unit.agred -= 1
+            if self.unit.stunned > 0:
                 self.unit.hit_status = 0
-                self.unit.stunned = False
+                self.unit.stunned -= 1
         self.update_info()
 
     def next_round(self):
@@ -183,6 +183,7 @@ class Game:
         for u in self.unit_order:
             u.hit_status = 1
             u.back_dmg = 0
+            u.protection -= 1
             u.current_movement = u.movement
             u.current_damage = u.damage
             if u.cooldown1 > 0:
@@ -205,7 +206,7 @@ class Game:
                  randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                  self.cell_size, self.cells))
         self.units_1.append(
-            Rogue(60, 18, (self.N + 1) // 3, randint(1, self.N - 1) * self.cell_size,
+            Rogue(60, 15, (self.N + 1) // 3, randint(1, self.N - 1) * self.cell_size,
                   randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                   self.cell_size, self.cells))
         self.units_1.append(
