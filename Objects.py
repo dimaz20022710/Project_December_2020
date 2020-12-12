@@ -49,6 +49,10 @@ class Field:
         self.cells = []
 
     def draw_map(self):
+        """
+        This function draws cells on the field
+        :return:List of cells on the field
+        """
         for i in range(self.N + 1):
             self.cells.append([])
             for j in range(1, self.N):
@@ -59,6 +63,10 @@ class Field:
         return self.cells
 
     def draw_walls(self):
+        """
+        This function randomly draws walls on the map
+        :return: None
+        """
         walls = []
         walls_1 = []
         for i in range(rint(self.N // 4, self.N // 3)):
@@ -89,9 +97,8 @@ class Field:
 
 class Bar:
     """
-
+    This is the class responsible for the game menu
     """
-
     hovered = 0
     clicked = 0
 

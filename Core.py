@@ -199,8 +199,8 @@ class Game:
 
     def set_allies(self):
         """
-
-        :return:
+        Create allied units
+        :return: None
         """
         self.units_1.append(
             Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
@@ -229,8 +229,8 @@ class Game:
 
     def set_enemies(self):
         """
-
-        :return:
+        Create enemy units
+        :return: None
         """
         self.units_2.append(
             Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
