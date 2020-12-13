@@ -1,7 +1,10 @@
 from pygame.draw import rect
 from abc import ABC, abstractmethod
-import pygame
-from main import screen
+from pygame import image
+import math
+
+
+# range1 = image.load('pics/toy_sniper.png')
 
 
 class Unit(ABC):
@@ -12,6 +15,11 @@ class Unit(ABC):
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
         """
         This function will set the initial characteristics of an object of this class
+        :param hp: Unit's health
+        :param damage:Unit's damage
+        :param movement: Unit's speed
+        :param x: Unit's coordinate x
+        :param y:Unit's coordinate y
         """
         self.hp = hp
         self.damage = damage
@@ -40,25 +48,23 @@ class Unit(ABC):
 
     @abstractmethod
     def draw_unit(self):
+        """
+        This function draws a unit
+        """
         pass
 
     def light(self):
-        """ The function draws yellow squares """
-        color_yellow = (255, 255, 0)
-        rect(self.screen, color_yellow, (self.x, self.y, self.cell_size, self.cell_size), 2)
+        rect(self.screen, (255, 255, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def unlight(self):
-        """  This function turns off the light  """
         rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size), 2)
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def erase_pic(self):
-        """ This function erases the unit """
         rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size))
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def hit_bar(self):
-        """ This function draws the health status of a unit """
         if self.side == 1:
             rect(self.screen, (0, 100, 0), (self.x, self.y - 20, self.cell_size, 10))
             rect(self.screen, (0, 200, 0), (self.x, self.y - 20, self.cell_size * self.current_hp // self.hp, 10))
@@ -68,48 +74,84 @@ class Unit(ABC):
         rect(self.screen, (0, 0, 0), (self.x, self.y - 20, self.cell_size, 10), 1)
 
     def move_unit(self, x, y):
-        """ This function describes the movement of the unit """
+        """
+        This function describes the movement of the unit
+        """
+        self.cells[self.x // self.cell_size][self.y // self.cell_size - 1][2] = 0
         self.erase_pic()
         self.unlight()
         self.x = x
         self.y = y
+        self.cells[self.x // self.cell_size][self.y // self.cell_size - 1][2] = 1
         self.draw_unit()
         self.light()
 
+    def check_walls(self, aim):
+        k = 100
+        points = []
+        dy = (aim.y - self.y) / k
+        dx = (aim.x - self.x) / k
+        for i in range(k):
+            points.append([self.x + math.ceil(i * dx), self.y + math.ceil(i * dy)])
+        for i in self.cells:
+            for j in i:
+                for k in points:
+                    if (k[0] - j[0] > 0) and (k[0] - j[0] < self.cell_size) and (k[1] - j[1] > 0) and (
+                            k[1] - j[1] < self.cell_size):
+                        if j[2] == -1:
+                            return 1
+        return 0
+
     @abstractmethod
     def special_ability1(self, cell):
+        """
+        This function describes the superpowers of individual units.
+        """
         pass
 
     @abstractmethod
     def special_ability2(self, cell):
+        """
+        This function describes the superpowers of individual units.
+        """
         pass
 
     @abstractmethod
     def special_ability3(self, cell):
+        """
+        This function describes the superpowers of individual units.
+        """
         pass
 
     @abstractmethod
     def special_ability4(self, cell):
+        """
+        This function describes the superpowers of individual units.
+        """
         pass
 
 
 class MeleeUnit(Unit, ABC):
-    """ A subclass of units that use melee combat """
+    """
+    A subclass of units that use melee combat
+    """
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
-        """ This function will set the initial characteristics of an object of this class """
+        """
+        This function will set the initial characteristics of an object of this class
+        :param hp: Unit's health
+        :param damage: Unit's damage
+        :param movement: Unit's speed
+        :param x: Unit's coordinate x
+        :param y: Unit's coordinate y
+        """
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.type = "Melee"
 
     def draw_unit(self):
-        """ This function draws units on the map """
         if self.side == 1:
-            myimage = pygame.image.load("toy_sniper.png")
-            myimage = pygame.transform.scale(myimage, (self.cell_size, self.cell_size))
-            screen.blit(myimage, (self.x, self.y))
-
-            #rect(self.screen, (0, 255, 0), (self.x, self.y, self.cell_size, self.cell_size))
-            #rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+            rect(self.screen, (0, 255, 0), (self.x, self.y, self.cell_size, self.cell_size))
+            rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
         else:
             rect(self.screen, (255, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
@@ -143,10 +185,10 @@ class RangeUnit(Unit, ABC):
         self.type = 'Range'
 
     def draw_unit(self):
-        """ This function draws units on the map """
         if self.side == 1:
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
             rect(self.screen, (0, 105, 0), (self.x, self.y, self.cell_size, self.cell_size))
+            # self.screen.blit(range1, (self.x, self.y))
         else:
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
             rect(self.screen, (105, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
@@ -156,9 +198,12 @@ class RangeUnit(Unit, ABC):
         """
         This function describes unit attacks
         """
-        aim.current_hp -= self.current_damage
-        self.hit_status -= 1
-        self.current_hp -= aim.back_dmg
+        if self.check_walls(aim) == 0:
+            aim.current_hp -= self.current_damage
+            self.hit_status -= 1
+            self.current_hp -= aim.back_dmg
+        else:
+            self.hit_status -= 1
 
 
 class Tank(MeleeUnit):
@@ -208,7 +253,8 @@ class Tank(MeleeUnit):
         """
         if self.cooldown4 == 0:
             if type(unit) != list:
-                unit.agred = 2
+                if self.check_walls(unit) == 0:
+                    unit.agred = 2
                 self.cooldown4 = 5
                 self.clicked = False
         else:
@@ -235,7 +281,8 @@ class Rogue(MeleeUnit):
         """
         if self.cooldown1 == 0:
             if type(unit) != list:
-                unit.current_movement = 0
+                if self.check_walls(unit) == 0:
+                    unit.current_movement = 0
                 self.cooldown1 = 3
                 self.clicked = False
         else:
@@ -297,7 +344,8 @@ class Wizard(RangeUnit):
         """
         if self.cooldown1 == 0:
             if type(unit) != list:
-                unit.stunned = 2
+                if self.check_walls(unit) == 0:
+                    unit.stunned = 2
                 self.cooldown1 = 4
                 self.clicked = False
         else:
@@ -309,7 +357,8 @@ class Wizard(RangeUnit):
         """
         if self.cooldown2 == 0:
             if type(unit) != list:
-                unit.current_hp -= 30
+                if self.check_walls(unit) == 0:
+                    unit.current_hp -= 30
                 self.cooldown2 = 4
                 self.clicked = False
         else:
@@ -321,8 +370,9 @@ class Wizard(RangeUnit):
         """
         if self.cooldown3 == 0:
             if type(unit) != list:
-                unit.current_hp -= 10
-                unit.current_movement //= 2
+                if self.check_walls(unit) == 0:
+                    unit.current_hp -= 10
+                    unit.current_movement //= 2
                 self.cooldown3 = 2
                 self.clicked = False
         else:
@@ -334,10 +384,11 @@ class Wizard(RangeUnit):
         """
         if self.cooldown4 == 0:
             if type(unit) != list:
-                unit.cooldown1 += 1
-                unit.cooldown2 += 1
-                unit.cooldown3 += 1
-                unit.cooldown4 += 1
+                if self.check_walls(unit) == 0:
+                    unit.cooldown1 += 1
+                    unit.cooldown2 += 1
+                    unit.cooldown3 += 1
+                    unit.cooldown4 += 1
                 self.cooldown4 = 4
                 self.clicked = False
         else:
@@ -384,7 +435,8 @@ class Sniper(RangeUnit):
         """
         if self.cooldown3 == 0:
             if type(unit) != list:
-                unit.current_hp -= 20
+                if self.check_walls(unit) == 0:
+                    unit.current_hp -= 20
                 self.cooldown3 = 4
                 self.clicked = False
         else:
@@ -396,14 +448,15 @@ class Sniper(RangeUnit):
         """
         if self.cooldown4 == 0:
             if type(unit) != list:
-                unit.movement -= unit.movement // 3
+                if self.check_walls(unit) == 0:
+                    unit.movement -= unit.movement // 3
                 self.cooldown4 = 4
                 self.clicked = False
         else:
             self.clicked = False
 
 
-class Support(MeleeUnit):
+class Support(RangeUnit):
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
         """
@@ -423,9 +476,10 @@ class Support(MeleeUnit):
         """
         if self.cooldown1 == 0:
             if type(unit) != list:
-                unit.current_hp += 20
-                if unit.current_hp > unit.hp:
-                    unit.current_hp = unit.hp
+                if self.check_walls(unit) == 0:
+                    unit.current_hp += 20
+                    if unit.current_hp > unit.hp:
+                        unit.current_hp = unit.hp
                 self.cooldown1 = 2
                 self.clicked = False
         else:
@@ -437,7 +491,8 @@ class Support(MeleeUnit):
         """
         if self.cooldown2 == 0:
             if type(unit) != list:
-                unit.protection = 2
+                if self.check_walls(unit) == 0:
+                    unit.protection = 2
                 self.cooldown2 = 2
                 self.clicked = False
         else:
@@ -449,8 +504,9 @@ class Support(MeleeUnit):
         """
         if self.cooldown3 == 0:
             if type(unit) != list:
-                unit.current_hp -= 15
-                unit.stunned = 2
+                if self.check_walls(unit) == 0:
+                    unit.current_hp -= 10
+                    unit.stunned = 2
                 self.cooldown3 = 4
                 self.clicked = False
         else:
