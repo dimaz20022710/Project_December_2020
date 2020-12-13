@@ -172,7 +172,6 @@ class Game:
                 self.unit.hit_status = 0
                 self.unit.stunned -= 1
         self.update_info()
-        print(self.unit_order)
 
     def next_round(self):
         """

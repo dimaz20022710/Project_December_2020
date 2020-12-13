@@ -57,9 +57,7 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                             if abs(j[0] - unit.x) // cell_size + abs(
                                     j[1] - unit.y) // cell_size <= unit.current_movement and unit.current_movement > 0:
                                 unit.current_movement -= abs(j[0] - unit.x) // cell_size + abs(j[1] - unit.y) // cell_size
-                                cells[unit.x // cell_size][unit.y // cell_size - 1][2] = 0
                                 unit.move_unit(j[0], j[1])
-                                j[2] = 1
                                 game.update_info()
                         if j[2] == 1:
                             for aim in order:
