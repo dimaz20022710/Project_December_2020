@@ -5,8 +5,6 @@ import math
 import pygame
 
 
-# range1 = image.load('pics/toy_sniper.png')
-
 
 class Unit(ABC):
     """
@@ -16,11 +14,6 @@ class Unit(ABC):
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
         """
         This function will set the initial characteristics of an object of this class
-        :param hp: Unit's health
-        :param damage:Unit's damage
-        :param movement: Unit's speed
-        :param x: Unit's coordinate x
-        :param y:Unit's coordinate y
         """
         self.hp = hp
         self.damage = damage
@@ -49,23 +42,25 @@ class Unit(ABC):
 
     @abstractmethod
     def draw_unit(self):
-        """
-        This function draws a unit
-        """
         pass
 
     def light(self):
-        rect(self.screen, (255, 255, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+        """ The function draws yellow squares """
+        color_yellow = (255, 255, 0)
+        rect(self.screen, color_yellow, (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def unlight(self):
+        """  This function turns off the light  """
         rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size), 2)
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def erase_pic(self):
+        """ This function erases the unit """
         rect(self.screen, (255, 255, 255), (self.x, self.y, self.cell_size, self.cell_size))
         rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
 
     def hit_bar(self):
+        """ This function draws the health status of a unit """
         if self.side == 1:
             rect(self.screen, (0, 100, 0), (self.x, self.y - 20, self.cell_size, 10))
             rect(self.screen, (0, 200, 0), (self.x, self.y - 20, self.cell_size * self.current_hp // self.hp, 10))
@@ -105,37 +100,23 @@ class Unit(ABC):
 
     @abstractmethod
     def special_ability1(self, cell):
-        """
-        This function describes the superpowers of individual units.
-        """
         pass
 
     @abstractmethod
     def special_ability2(self, cell):
-        """
-        This function describes the superpowers of individual units.
-        """
         pass
 
     @abstractmethod
     def special_ability3(self, cell):
-        """
-        This function describes the superpowers of individual units.
-        """
         pass
 
     @abstractmethod
     def special_ability4(self, cell):
-        """
-        This function describes the superpowers of individual units.
-        """
         pass
 
 
 class MeleeUnit(Unit, ABC):
-    """
-    A subclass of units that use melee combat
-    """
+    """ A subclass of units that use melee combat """
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
         """ This function will set the initial characteristics of an object of this class """
@@ -156,14 +137,7 @@ class RangeUnit(Unit, ABC):
     """
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
-        """
-        This function will set the initial characteristics of an object of this class
-        :param hp: Unit's health
-        :param damage: Unit's damage
-        :param movement: Unit's speed
-        :param x: Unit's coordinate x
-        :param y: Unit's coordinate y
-        """
+        """ This function will set the initial characteristics of an object of this class """
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.type = 'Range'
 

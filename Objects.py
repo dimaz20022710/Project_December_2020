@@ -3,19 +3,9 @@ from random import randint as rint
 
 
 class Wall:
-    """
-    This class of walls that will be painted on the field
-    """
 
     def __init__(self, screen, x, y, height, width):
-        """
-        This function will set the initial characteristics of an object of this class
-        :param screen: The screen on which the object of this class is drawn
-        :param x: The coordinate x of an object of this class
-        :param y: The coordinate y of an object of this class
-        :param height: Height of an object of this class
-        :param width: Width of an object of this class
-        """
+        """ This function will set the initial characteristics of an object of this class """
         self.screen = screen
         self.x = x
         self.y = y
