@@ -19,6 +19,11 @@ def menu_event(options):
 
 def game_event(event, signs, cell_size, cells, unit, order, game):
     """ This function handles all events from the player if we are in the game """
+    if event.type == pygame.KEYDOWN:
+        if event.key == ord("q"):
+            unit.current_movement = 0
+            unit.hit_status = 0
+            game.update_info()
     if event.type == pygame.MOUSEBUTTONDOWN:
         for sign in signs:
             if sign.rect.collidepoint(event.pos):
