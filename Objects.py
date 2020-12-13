@@ -144,3 +144,6 @@ class Bar:
         self.set_rend()
         self.rect = self.rend.get_rect()
         self.rect.topleft = self.pos
+
+
+

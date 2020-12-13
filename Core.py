@@ -172,7 +172,6 @@ class Game:
                 self.unit.hit_status = 0
                 self.unit.stunned -= 1
         self.update_info()
-        print(self.unit_order)
 
     def next_round(self):
         """
@@ -270,6 +269,8 @@ class Game:
                 if self.unit.ability == 4:
                     self.unit.special_ability4(unit)
                 aim += 1
+                if unit.current_hp <= 0:
+                    self.unit_death(unit)
         if aim == 0:
             if self.unit.ability == 1:
                 self.unit.special_ability1(cell)
