@@ -1,6 +1,7 @@
 from pygame.draw import rect
 from abc import ABC, abstractmethod
-
+import pygame
+from main import screen
 
 
 class Unit(ABC):
@@ -103,8 +104,12 @@ class MeleeUnit(Unit, ABC):
     def draw_unit(self):
         """ This function draws units on the map """
         if self.side == 1:
-            rect(self.screen, (0, 255, 0), (self.x, self.y, self.cell_size, self.cell_size))
-            rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
+            myimage = pygame.image.load("toy_sniper.png")
+            myimage = pygame.transform.scale(myimage, (self.cell_size, self.cell_size))
+            screen.blit(myimage, (self.x, self.y))
+
+            #rect(self.screen, (0, 255, 0), (self.x, self.y, self.cell_size, self.cell_size))
+            #rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
         else:
             rect(self.screen, (255, 0, 0), (self.x, self.y, self.cell_size, self.cell_size))
             rect(self.screen, (0, 0, 0), (self.x, self.y, self.cell_size, self.cell_size), 2)
