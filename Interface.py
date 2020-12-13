@@ -2,11 +2,6 @@ import pygame
 
 
 def menu_event(options):
-    """
-
-    :param options:
-    :return:
-    """
     for option in options:
         if option.rect.collidepoint(pygame.mouse.get_pos()):
             option.hovered = True
@@ -23,17 +18,7 @@ def menu_event(options):
 
 
 def game_event(event, signs, cell_size, cells, unit, order, game):
-    """
-    !!!TODO!!!
-    :param event:
-    :param signs:
-    :param cell_size:
-    :param cells:
-    :param unit:
-    :param order:
-    :param game:
-    :return:
-    """
+    """ This function handles all events from the player if we are in the game """
     if event.type == pygame.MOUSEBUTTONDOWN:
         for sign in signs:
             if sign.rect.collidepoint(event.pos):
@@ -75,9 +60,7 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                                     j[1] - unit.y) // cell_size <= unit.current_movement and unit.current_movement > 0:
                                 unit.current_movement -= abs(j[0] - unit.x) // cell_size + abs(
                                     j[1] - unit.y) // cell_size
-                                cells[unit.x // cell_size][unit.y // cell_size - 1][2] = 0
                                 unit.move_unit(j[0], j[1])
-                                j[2] = 1
                                 game.update_info()
                         if j[2] == 1:
                             for aim in order:

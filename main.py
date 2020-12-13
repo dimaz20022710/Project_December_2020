@@ -5,7 +5,7 @@ import Interface
 from Objects import Bar
 
 finished = False
-screen_height = 840
+screen_height = 864
 screen_width = screen_height
 N = 23
 cell_size = screen_height // (N + 1)
@@ -13,7 +13,7 @@ FPS = 30
 condition = 0  # 0 - Menu, 1 - game
 
 pygame.init()
-screen = pygame.display.set_mode((screen_height, screen_width))
+screen = pygame.display.set_mode((screen_height, screen_width), pygame.FULLSCREEN)
 pygame.display.set_caption("WarGame")
 clock = pygame.time.Clock()
 menu_font = pygame.font.Font(None, 60)

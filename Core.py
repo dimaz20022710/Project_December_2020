@@ -154,7 +154,6 @@ class Game:
 
     def next_turn(self):
         """
-
         :return:
         """
         self.unit.unlight()
@@ -175,7 +174,6 @@ class Game:
 
     def next_round(self):
         """
-
         :return:
         """
         self.turn = 0
@@ -198,8 +196,7 @@ class Game:
 
     def set_allies(self):
         """
-        Create allied units
-        :return: None
+        :return:
         """
         self.units_1.append(
             Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
@@ -228,8 +225,7 @@ class Game:
 
     def set_enemies(self):
         """
-        Create enemy units
-        :return: None
+        :return:
         """
         self.units_2.append(
             Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
