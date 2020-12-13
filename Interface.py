@@ -82,4 +82,3 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                         game.use_ability(j)
                         game.update_info()
     return 0
-

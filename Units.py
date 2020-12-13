@@ -1,7 +1,7 @@
 from pygame.draw import rect
 from abc import ABC, abstractmethod
 from pygame import image
-
+from Objects import check_walls
 
 # range1 = image.load('pics/toy_sniper.png')
 
@@ -179,9 +179,12 @@ class RangeUnit(Unit, ABC):
         """
         This function describes unit attacks
         """
-        aim.current_hp -= self.current_damage
-        self.hit_status -= 1
-        self.current_hp -= aim.back_dmg
+        if check_walls(self, aim, self.cell_size, self.cells) == 0:
+            aim.current_hp -= self.current_damage
+            self.hit_status -= 1
+            self.current_hp -= aim.back_dmg
+        else:
+            self.hit_status -= 1
 
 
 class Tank(MeleeUnit):

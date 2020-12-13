@@ -137,3 +137,22 @@ class Bar:
         self.set_rend()
         self.rect = self.rend.get_rect()
         self.rect.topleft = self.pos
+
+
+import math
+def check_walls(unit, aim, cell_size, cells):
+    K = 100
+    points = []
+    dy = (aim.y - unit.y) / K
+    dx = (aim.x - unit.x) / K
+    for i in range(K):
+        points.append([unit.x + math.ceil(i * dx), unit.y + math.ceil(i * dy)])
+        #points.append([unit.x + math.ceil(i * dx), unit.y + math.ceil(i * dy)])
+    for i in cells:
+        for j in i:
+            for k in points:
+                if (k[0] - j[0] > 0) and (k[0] - j[0] < cell_size) and (k[1] - j[1] > 0) and (
+                        k[1] - j[1] < cell_size):
+                    if j[2] == -1:
+                        return 1
+    return 0
