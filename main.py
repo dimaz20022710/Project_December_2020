@@ -13,8 +13,8 @@ FPS = 30
 condition = 0  # 0 - Menu, 1 - game
 
 pygame.init()
-screen = pygame.display.set_mode((screen_height, screen_width))
-pygame.display.set_caption("WarGame")
+screen = pygame.display.set_mode((screen_height, screen_width), pygame.FULLSCREEN)
+pygame.display.set_caption("War tactics: call of dgap")
 clock = pygame.time.Clock()
 menu_font = pygame.font.Font(None, 60)
 f1 = pygame.font.Font(None, 30)

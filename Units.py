@@ -1,6 +1,5 @@
 from pygame.draw import rect
 from abc import ABC, abstractmethod
-from pygame import image
 import math
 import pygame
 
@@ -135,9 +134,7 @@ class RangeUnit(Unit, ABC):
         self.type = 'Range'
 
     def hit(self, aim):
-        """
-        This function describes unit attacks
-        """
+        """ This function describes unit attacks """
         if self.ignore_walls == 0:
             if self.check_walls(aim) == 0:
                 aim.current_hp -= self.current_damage

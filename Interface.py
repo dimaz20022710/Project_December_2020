@@ -2,6 +2,7 @@ import pygame
 
 
 def menu_event(options):
+    """ This function is responsible for the operation of the menu """
     for option in options:
         if option.rect.collidepoint(pygame.mouse.get_pos()):
             option.hovered = True

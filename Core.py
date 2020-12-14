@@ -59,12 +59,7 @@ class Game:
     """ This class is responsible for the game process """
 
     def __init__(self, screen, screen_height, screen_width, N, signs, f1):
-        """
-        This function is responsible for the initial screen characteristics when creating an object of this class.
-        :param screen: The screen that is being created
-        :param screen_height:
-        :param screen_width:
-        :param N:The number of lines vertically and horizontally, respectively
+        """ This function is responsible for the initial screen characteristics when creating an object of this class
         """
 
         self.unit_order = []
@@ -98,14 +93,17 @@ class Game:
         self.update_info()
 
     def end_game(self):
-        """ The function is responsible for the end of the game """
         pass
 
     def lighten_cell(self, x, y):
-        rect(self.screen, (230, 230, 0), (x, y, self.cell_size, self.cell_size))
-        rect(self.screen, (0, 0, 0), (x, y, self.cell_size, self.cell_size), 2)
+        """ This function makes the cells available for turn yellow """
+        color_black = (0, 0, 0)
+        color_yellow = (230, 230, 0)
+        rect(self.screen, color_yellow, (x, y, self.cell_size, self.cell_size))
+        rect(self.screen, color_black, (x, y, self.cell_size, self.cell_size), 2)
 
     def unit_death(self, aim):
+        """ This function handles the death of a character """
         aim.erase_pic()
         self.cells[aim.x // self.cell_size][aim.y // self.cell_size - 1][2] = 0
         if self.unit_order.index(aim) < self.unit_order.index(self.unit):
@@ -113,19 +111,23 @@ class Game:
         del self.unit_order[self.unit_order.index(aim)]
 
     def redraw(self):
+        """ This function checks the death of the unit and draws it depending on it """
+        color_black = (0, 0, 0)
+        color_white = (255, 255, 255)
         for c in self.cells:
             for cell in c:
                 if cell[2] == -1:
-                    rect(self.screen, (0, 0, 0), (cell[0], cell[1], self.cell_size, self.cell_size))
+                    rect(self.screen, color_black, (cell[0], cell[1], self.cell_size, self.cell_size))
                 if cell[2] == 0:
-                    rect(self.screen, (255, 255, 255), (cell[0], cell[1], self.cell_size, self.cell_size))
-                    rect(self.screen, (0, 0, 0), (cell[0], cell[1], self.cell_size, self.cell_size), 2)
+                    rect(self.screen, color_white, (cell[0], cell[1], self.cell_size, self.cell_size))
+                    rect(self.screen, color_black, (cell[0], cell[1], self.cell_size, self.cell_size), 2)
                 if cell[2] == 1:
                     for unit in self.unit_order:
                         if cell[0] == unit.x and cell[1] == unit.y:
                             unit.draw_unit()
 
     def draw_moves(self):
+        """ This function handles the movement of the hero """
         for i in range(-self.unit.current_movement, self.unit.current_movement + 1):
             for j in range(-self.unit.current_movement, self.unit.current_movement + 1):
                 if self.unit.current_movement >= abs(i) + abs(j) > 0:
@@ -137,7 +139,9 @@ class Game:
             unit.hit_bar()
 
     def update_info(self):
-        rect(self.screen, (255, 255, 255), (0, 0, self.screen_height, self.cell_size))
+        """ This function processes information about the characters and displays the field depending on this. """
+        color_white = (255, 255, 255)
+        rect(self.screen, color_white, (0, 0, self.screen_height, self.cell_size))
         text = self.font.render(
             'Player ' + str(self.unit.side) + ' , ' + str(self.unit.subclass) + ', hp - ' + str(
                 self.unit.current_hp) + ', movement - ' + str(
@@ -148,9 +152,7 @@ class Game:
         self.screen.blit(text, (15, 0))
 
     def next_turn(self):
-        """
-        :return:
-        """
+        """ This function allows you to transfer the move to another player """
         self.unit.unlight()
         self.turn += 1
         self.unit = self.unit_order[self.turn - 1]
@@ -168,9 +170,7 @@ class Game:
         self.update_info()
 
     def next_round(self):
-        """
-        :return:
-        """
+        """ This function passes the turn to another player, checking all the information about the character """
         self.turn = 0
         self.next_turn()
         for u in self.unit_order:
@@ -190,9 +190,7 @@ class Game:
         self.update_info()
 
     def set_allies(self):
-        """
-        :return:
-        """
+        """ This function creates your characters """
         self.units_1.append(
             Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
                  randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
@@ -219,9 +217,7 @@ class Game:
             i.draw_unit()
 
     def set_enemies(self):
-        """
-        :return:
-        """
+        """ This function creates enemy characters """
         self.units_2.append(
             Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
                  randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
@@ -248,6 +244,7 @@ class Game:
             i.draw_unit()
 
     def use_ability(self, cell):
+        """ This function allows you to use the abilities of heroes """
         aim = 0
         for unit in self.unit_order:
             if unit.x == cell[0] and unit.y == cell[1]:
