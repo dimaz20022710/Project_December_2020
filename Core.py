@@ -30,7 +30,7 @@ class MainMenu:
 
     def get_color(self):
         """ This function changes the color of the button in the menu """
-        color_red = (255, 0, 0)
+        color_red = (0, 0, 0)
         color_white = (255, 255, 255)
         color_gray = (49, 173, 245)
 
