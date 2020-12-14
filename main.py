@@ -31,6 +31,9 @@ signs = [Bar("End turn", (cell_size * 2 * N // 3, cell_size * N + 15), screen,
                                f1), Bar("4", (cell_size * N // 10 + cell_size * 6, cell_size * N + 15), screen,
                                         f1)]
 game = Core.Game(screen, screen_height, screen_width, N, signs, f1)
+menu = pygame.image.load("qop_arcana_bg.png").convert()
+menu = pygame.transform.scale(menu, (screen_height, screen_height))
+screen.blit(menu, (0, 0))
 
 while not finished:
     clock.tick(FPS)
@@ -39,7 +42,7 @@ while not finished:
             finished = True
         else:
             if condition == 0:
-                screen.fill((0, 0, 0))
+                # screen.fill((0, 0, 0))
                 for option in options:
                     option.draw()
                 text = Interface.menu_event(options)

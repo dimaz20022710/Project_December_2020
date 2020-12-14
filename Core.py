@@ -2,6 +2,7 @@ from Objects import Field
 from random import randint as randint
 from Units import Tank, Rogue, Support, Wizard, Sniper
 from pygame.draw import rect
+import pygame
 
 
 class MainMenu:
@@ -10,13 +11,7 @@ class MainMenu:
     clicked = False
 
     def __init__(self, text, pos, screen, menu_font):
-        """
-        This function sets the initial conditions for an object from this class
-        :param text: Text to be written
-        :param pos: Positioning text on screen
-        :param screen: Screen on which text is displayed
-        :param menu_font: Text font
-        """
+        """ This function sets the initial conditions for an object from this class """
         self.text = text
         self.pos = pos
         self.screen = screen
@@ -37,7 +32,7 @@ class MainMenu:
         """ This function changes the color of the button in the menu """
         color_red = (255, 0, 0)
         color_white = (255, 255, 255)
-        color_gray = (100, 100, 100)
+        color_gray = (49, 173, 245)
 
         if self.hovered:
             if self.clicked:
@@ -45,7 +40,7 @@ class MainMenu:
             else:
                 return color_white
         else:
-            return color_gray
+            return color_red
 
     def set_rect(self):
         """ This function is responsible for the interaction of the player with the buttons in the menu. """

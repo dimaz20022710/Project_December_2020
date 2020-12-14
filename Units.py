@@ -161,7 +161,7 @@ class Tank(MeleeUnit):
         self.subclass = 'Tank'
 
         # Our tank
-        self.Tank1 = pygame.image.load("Tank 1.jpg").convert()
+        self.Tank1 = pygame.image.load("axe.png").convert()
         self.Tank1 = pygame.transform.scale(self.Tank1, (self.cell_size, self.cell_size))
         # Opponent's tank
         self.Tank2 = pygame.image.load("Tank 2.jpg").convert()
