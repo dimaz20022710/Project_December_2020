@@ -2,7 +2,6 @@ from Objects import Field
 from random import randint as randint
 from Units import Tank, Rogue, Support, Wizard, Sniper
 from pygame.draw import rect
-import pygame
 
 
 class MainMenu:
@@ -30,7 +29,7 @@ class MainMenu:
 
     def get_color(self):
         """ This function changes the color of the button in the menu """
-        color_red = (0, 0, 0)
+        color_red = (255, 0, 0)
         color_white = (255, 255, 255)
         color_gray = (49, 173, 245)
 
@@ -38,9 +37,9 @@ class MainMenu:
             if self.clicked:
                 return color_red
             else:
-                return color_white
+                return color_red
         else:
-            return color_red
+            return color_white
 
     def set_rect(self):
         """ This function is responsible for the interaction of the player with the buttons in the menu. """
