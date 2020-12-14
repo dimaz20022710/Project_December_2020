@@ -79,12 +79,14 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
         if not unit.clicked:
             for i in cells:
                 for j in i:
-                    if (event.pos[0] - j[0] > 0) and (event.pos[0] - j[0] < cell_size) and (event.pos[1] - j[1] > 0) and (
+                    if (event.pos[0] - j[0] > 0) and (event.pos[0] - j[0] < cell_size) and (
+                            event.pos[1] - j[1] > 0) and (
                             event.pos[1] - j[1] < cell_size):
                         if j[2] == 0:
                             if abs(j[0] - unit.x) // cell_size + abs(
                                     j[1] - unit.y) // cell_size <= unit.current_movement and unit.current_movement > 0:
-                                unit.current_movement -= abs(j[0] - unit.x) // cell_size + abs(j[1] - unit.y) // cell_size
+                                unit.current_movement -= abs(j[0] - unit.x) // cell_size + abs(
+                                    j[1] - unit.y) // cell_size
                                 unit.move_unit(j[0], j[1])
                                 game.update_info()
                         if j[2] == 1:

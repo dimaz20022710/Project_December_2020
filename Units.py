@@ -34,6 +34,7 @@ class Unit(ABC):
         self.stunned = 0
         self.protection = 0
         self.ability = 0
+        self.ignore_walls = 0
 
     @abstractmethod
     def draw_unit(self):
@@ -134,13 +135,21 @@ class RangeUnit(Unit, ABC):
         self.type = 'Range'
 
     def hit(self, aim):
-        """ This function describes unit attacks """
-        if self.check_walls(aim) == 0:
+        """
+        This function describes unit attacks
+        """
+        if self.ignore_walls == 0:
+            if self.check_walls(aim) == 0:
+                aim.current_hp -= self.current_damage
+                self.hit_status -= 1
+                self.current_hp -= aim.back_dmg
+            else:
+                self.hit_status -= 1
+        else:
             aim.current_hp -= self.current_damage
             self.hit_status -= 1
             self.current_hp -= aim.back_dmg
-        else:
-            self.hit_status -= 1
+            self.ignore_walls = 0
 
 
 class Tank(MeleeUnit):
@@ -364,8 +373,8 @@ class Sniper(RangeUnit):
     def special_ability2(self, cell):
         """ This ability increases the sniper's movement radius """
         if self.cooldown2 == 0:
-            self.current_movement += self.movement
-            self.cooldown2 = 3
+            self.ignore_walls = 1
+            self.cooldown2 = 2
         self.clicked = False
 
     def special_ability3(self, unit):
