@@ -19,7 +19,7 @@ clock = pygame.time.Clock()
 menu_font = pygame.font.Font(None, 60)
 f1 = pygame.font.Font(None, 30)
 options = [Core.MainMenu("START GAME", (screen_height // 3 + 10, screen_width // 3 - 100), screen, menu_font),
-           Core.MainMenu("EXIT", (2 * screen_height // 5 + 40, 2 * screen_width // 3 - 150), screen,
+           Core.MainMenu("EXIT", (2 * screen_height // 5 + 30, 2 * screen_width // 3 - 60), screen,
                          menu_font)]
 signs = [Bar("End turn", (cell_size * 2 * N // 3, cell_size * N + 5), screen,
              pygame.font.Font(None, 30)),
