@@ -34,7 +34,6 @@ game = Core.Game(screen, screen_height, screen_width, N, signs, f1)
 menu = pygame.image.load("pics/qop_arcana_bg.png").convert()
 menu = pygame.transform.scale(menu, (screen_height, screen_height))
 
-
 while not finished:
     clock.tick(FPS)
     for event in pygame.event.get():
