@@ -132,9 +132,7 @@ class MeleeUnit(Unit, ABC):
 
 
 class RangeUnit(Unit, ABC):
-    """
-    A subclass of units that use range combat
-    """
+    """ A subclass of units that use range combat """
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
         """ This function will set the initial characteristics of an object of this class """
@@ -161,18 +159,18 @@ class Tank(MeleeUnit):
         self.subclass = 'Tank'
 
         # Our tank
-        self.Tank1 = pygame.image.load("axe.png").convert()
-        self.Tank1 = pygame.transform.scale(self.Tank1, (self.cell_size, self.cell_size))
+        self.wk = pygame.image.load("wk.jfif").convert()
+        self.wk = pygame.transform.scale(self.wk, (self.cell_size, self.cell_size))
         # Opponent's tank
-        self.Tank2 = pygame.image.load("Tank 2.jpg").convert()
-        self.Tank2 = pygame.transform.scale(self.Tank2, (self.cell_size, self.cell_size))
+        self.axe = pygame.image.load("axe.png").convert()
+        self.axe = pygame.transform.scale(self.axe, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
         """ This function draws tanks on the field """
         if self.side == 1:
-            self.screen.blit(self.Tank1, (self.x, self.y))
+            self.screen.blit(self.wk, (self.x, self.y))
         else:
-            self.screen.blit(self.Tank2, (self.x, self.y))
+            self.screen.blit(self.axe, (self.x, self.y))
         self.hit_bar()
 
     def special_ability1(self, cell):
@@ -216,18 +214,18 @@ class Rogue(MeleeUnit):
         self.subclass = 'Rogue'
 
         # Our rogue
-        self.Rogue1 = pygame.image.load("Rogue_Anna Marie.png").convert()
-        self.Rogue1 = pygame.transform.scale(self.Rogue1, (self.cell_size, self.cell_size))
+        self.Furion = pygame.image.load("furion.jpg").convert()
+        self.Furion = pygame.transform.scale(self.Furion, (self.cell_size, self.cell_size))
         # Opponent's rogue
-        self.Rogue2 = pygame.image.load("Rogue_PHB5e.jpg").convert()
-        self.Rogue2 = pygame.transform.scale(self.Rogue2, (self.cell_size, self.cell_size))
+        self.lega = pygame.image.load("Lega.jfif").convert()
+        self.lega = pygame.transform.scale(self.lega, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
         """ This function draws rogues on the field """
         if self.side == 1:
-            self.screen.blit(self.Rogue1, (self.x, self.y))
+            self.screen.blit(self.Furion, (self.x, self.y))
         else:
-            self.screen.blit(self.Rogue2, (self.x, self.y))
+            self.screen.blit(self.lega, (self.x, self.y))
         self.hit_bar()
 
     def special_ability1(self, unit):
@@ -278,18 +276,18 @@ class Wizard(RangeUnit):
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.subclass = 'Wizard'
         # Our wizard
-        self.wizard1 = pygame.image.load("Wizard 1.jfif").convert()
-        self.wizard1 = pygame.transform.scale(self.wizard1, (self.cell_size, self.cell_size))
+        self.pugna = pygame.image.load("pugna.png").convert()
+        self.pugna = pygame.transform.scale(self.pugna, (self.cell_size, self.cell_size))
         # Opponent's wizard
-        self.wizard2 = pygame.image.load("Wizard 2.jfif").convert()
-        self.wizard2 = pygame.transform.scale(self.wizard2, (self.cell_size, self.cell_size))
+        self.invoker = pygame.image.load("Invo.jfif").convert()
+        self.invoker = pygame.transform.scale(self.invoker, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
         """ This function draws wizards on the field """
         if self.side == 1:
-            self.screen.blit(self.wizard1, (self.x, self.y))
+            self.screen.blit(self.pugna, (self.x, self.y))
         else:
-            self.screen.blit(self.wizard2, (self.x, self.y))
+            self.screen.blit(self.invoker, (self.x, self.y))
         self.hit_bar()
 
     def special_ability1(self, unit):
@@ -348,18 +346,18 @@ class Sniper(RangeUnit):
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.subclass = 'Sniper'
         # Our sniper
-        self.sniper1 = pygame.image.load("toy_sniper.png")
-        self.sniper1 = pygame.transform.scale(self.sniper1, (self.cell_size, self.cell_size))
+        self.sniper = pygame.image.load("Sniper.png")
+        self.sniper = pygame.transform.scale(self.sniper, (self.cell_size, self.cell_size))
         # Opponent's sniper
-        self.sniper2 = pygame.image.load("toy_sniper1.png")
-        self.sniper2 = pygame.transform.scale(self.sniper2, (self.cell_size, self.cell_size))
+        self.Gyro = pygame.image.load("Gyro.jfif")
+        self.Gyro = pygame.transform.scale(self.Gyro, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
         """ This function draws snipers on the field """
         if self.side == 1:
-            self.screen.blit(self.sniper1, (self.x, self.y))
+            self.screen.blit(self.sniper, (self.x, self.y))
         else:
-            self.screen.blit(self.sniper2, (self.x, self.y))
+            self.screen.blit(self.Gyro, (self.x, self.y))
         self.hit_bar()
 
     def special_ability1(self, cell):
@@ -408,17 +406,17 @@ class Support(RangeUnit):
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.subclass = 'Support'
         # Our support
-        self.support1 = pygame.image.load("support1.png").convert()
-        self.support1 = pygame.transform.scale(self.support1, (self.cell_size, self.cell_size))
+        self.Crystal_maiden = pygame.image.load("crystal_maiden_vert.jpg").convert()
+        self.Crystal_maiden = pygame.transform.scale(self.Crystal_maiden, (self.cell_size, self.cell_size))
         # Enemy support
-        self.support2 = pygame.image.load("support2.jfif").convert()
-        self.support2 = pygame.transform.scale(self.support2, (self.cell_size, self.cell_size))
+        self.Lion = pygame.image.load("Lion.jfif").convert()
+        self.Lion = pygame.transform.scale(self.Lion, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
         if self.side == 1:
-            self.screen.blit(self.support1, (self.x, self.y))
+            self.screen.blit(self.Crystal_maiden, (self.x, self.y))
         else:
-            self.screen.blit(self.support2, (self.x, self.y))
+            self.screen.blit(self.Lion, (self.x, self.y))
         self.hit_bar()
 
     def special_ability1(self, unit):
