@@ -5,7 +5,7 @@ import Interface
 from Objects import Bar
 
 finished = False
-screen_height = 864
+screen_height = 840
 screen_width = screen_height
 N = 23
 cell_size = screen_height // (N + 1)
@@ -13,7 +13,7 @@ FPS = 30
 condition = 0  # 0 - Menu, 1 - game
 
 pygame.init()
-screen = pygame.display.set_mode((screen_height, screen_width), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((screen_height, screen_width))
 pygame.display.set_caption("WarGame")
 clock = pygame.time.Clock()
 menu_font = pygame.font.Font(None, 60)
@@ -21,19 +21,19 @@ f1 = pygame.font.Font(None, 30)
 options = [Core.MainMenu("START GAME", (screen_height // 3 + 30, screen_width // 3), screen, menu_font),
            Core.MainMenu("EXIT", (2 * screen_height // 5 + 40, 2 * screen_width // 3), screen,
                          menu_font)]
-signs = [Bar("End turn", (cell_size * 2 * N // 3, cell_size * N + 15), screen,
+signs = [Bar("End turn", (cell_size * 2 * N // 3, cell_size * N + 5), screen,
              pygame.font.Font(None, 30)),
-         Bar("Exit Game", (cell_size * N * 5 // 6 + 20, cell_size * N + 15), screen,
+         Bar("Exit Game", (cell_size * N * 5 // 6 + 20, cell_size * N + 5), screen,
              pygame.font.Font(None, 30)),
-         Bar("1", (cell_size * N // 10, cell_size * N + 15), screen,
-             f1), Bar("2", (cell_size * N // 10 + cell_size * 2, cell_size * N + 15), screen,
-                      f1), Bar("3", (cell_size * N // 10 + cell_size * 4, cell_size * N + 15), screen,
-                               f1), Bar("4", (cell_size * N // 10 + cell_size * 6, cell_size * N + 15), screen,
+         Bar("1", (cell_size * N // 10, cell_size * N + 5), screen,
+             f1), Bar("2", (cell_size * N // 10 + cell_size * 2, cell_size * N + 5), screen,
+                      f1), Bar("3", (cell_size * N // 10 + cell_size * 4, cell_size * N + 5), screen,
+                               f1), Bar("4", (cell_size * N // 10 + cell_size * 6, cell_size * N + 5), screen,
                                         f1)]
 game = Core.Game(screen, screen_height, screen_width, N, signs, f1)
-menu = pygame.image.load("qop_arcana_bg.png").convert()
+'''menu = pygame.image.load("qop_arcana_bg.jfif").convert()
 menu = pygame.transform.scale(menu, (screen_height, screen_height))
-screen.blit(menu, (0, 0))
+screen.blit(menu, (0, 0))'''
 
 while not finished:
     clock.tick(FPS)
@@ -42,7 +42,7 @@ while not finished:
             finished = True
         else:
             if condition == 0:
-                # screen.fill((0, 0, 0))
+                screen.fill((0, 0, 0))
                 for option in options:
                     option.draw()
                 text = Interface.menu_event(options)
