@@ -110,6 +110,8 @@ class Game:
     def unit_death(self, aim):
         aim.erase_pic()
         self.cells[aim.x // self.cell_size][aim.y // self.cell_size - 1][2] = 0
+        if self.unit_order.index(aim) < self.unit_order.index(self.unit):
+            self.turn -= 1
         del self.unit_order[self.unit_order.index(aim)]
 
     def redraw(self):
@@ -227,7 +229,7 @@ class Game:
                  randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                  self.cell_size, self.cells))
         self.units_2.append(
-            Rogue(60, 18, (self.N + 1) // 3, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+            Rogue(60, 15, (self.N + 1) // 3, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
                   randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                   self.cell_size, self.cells))
         self.units_2.append(
