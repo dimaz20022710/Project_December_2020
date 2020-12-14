@@ -159,10 +159,10 @@ class Tank(MeleeUnit):
         self.subclass = 'Tank'
 
         # Our tank
-        self.wk = pygame.image.load("wk.jfif").convert()
+        self.wk = pygame.image.load("pics/wk.jfif").convert()
         self.wk = pygame.transform.scale(self.wk, (self.cell_size, self.cell_size))
         # Opponent's tank
-        self.axe = pygame.image.load("axe.png").convert()
+        self.axe = pygame.image.load("pics/axe.png").convert()
         self.axe = pygame.transform.scale(self.axe, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
@@ -214,10 +214,10 @@ class Rogue(MeleeUnit):
         self.subclass = 'Rogue'
 
         # Our rogue
-        self.Furion = pygame.image.load("furion.jpg").convert()
+        self.Furion = pygame.image.load("pics/furion.jpg").convert()
         self.Furion = pygame.transform.scale(self.Furion, (self.cell_size, self.cell_size))
         # Opponent's rogue
-        self.lega = pygame.image.load("Lega.jfif").convert()
+        self.lega = pygame.image.load("pics/Lega.jfif").convert()
         self.lega = pygame.transform.scale(self.lega, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
@@ -276,10 +276,10 @@ class Wizard(RangeUnit):
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.subclass = 'Wizard'
         # Our wizard
-        self.pugna = pygame.image.load("pugna.png").convert()
+        self.pugna = pygame.image.load("pics/pugna.png").convert()
         self.pugna = pygame.transform.scale(self.pugna, (self.cell_size, self.cell_size))
         # Opponent's wizard
-        self.invoker = pygame.image.load("Invo.jfif").convert()
+        self.invoker = pygame.image.load("pics/Invo.jfif").convert()
         self.invoker = pygame.transform.scale(self.invoker, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
@@ -346,10 +346,10 @@ class Sniper(RangeUnit):
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.subclass = 'Sniper'
         # Our sniper
-        self.sniper = pygame.image.load("Sniper.png")
+        self.sniper = pygame.image.load("pics/Sniper.png")
         self.sniper = pygame.transform.scale(self.sniper, (self.cell_size, self.cell_size))
         # Opponent's sniper
-        self.Gyro = pygame.image.load("Gyro.jfif")
+        self.Gyro = pygame.image.load("pics/Gyro.jfif")
         self.Gyro = pygame.transform.scale(self.Gyro, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
@@ -406,10 +406,10 @@ class Support(RangeUnit):
         super().__init__(hp, damage, movement, x, y, side, screen, cell_size, cells)
         self.subclass = 'Support'
         # Our support
-        self.Crystal_maiden = pygame.image.load("crystal_maiden_vert.jpg").convert()
+        self.Crystal_maiden = pygame.image.load("pics/crystal_maiden_vert.jpg").convert()
         self.Crystal_maiden = pygame.transform.scale(self.Crystal_maiden, (self.cell_size, self.cell_size))
         # Enemy support
-        self.Lion = pygame.image.load("Lion.jfif").convert()
+        self.Lion = pygame.image.load("pics/Lion.jfif").convert()
         self.Lion = pygame.transform.scale(self.Lion, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
