@@ -38,6 +38,7 @@ class Unit(ABC):
         self.protection = 0
         self.ability = 0
         self.ignore_walls = 0
+        self.action_points = 3
 
     @abstractmethod
     def draw_unit(self):
@@ -80,6 +81,7 @@ class Unit(ABC):
         self.cells[self.x // self.cell_size][self.y // self.cell_size - 1][2] = 1
         self.draw_unit()
         self.light()
+        self.action_points -= 1
 
     def check_walls(self, aim):
         k = 100
@@ -128,6 +130,7 @@ class MeleeUnit(Unit, ABC):
             aim.current_hp -= self.current_damage
             self.hit_status -= 1
             self.current_hp -= aim.back_dmg
+            self.action_points -= 1
 
 
 class RangeUnit(Unit, ABC):
@@ -154,6 +157,7 @@ class RangeUnit(Unit, ABC):
             self.hit_status -= 1
             self.current_hp -= aim.back_dmg
             self.ignore_walls = 0
+        self.action_points -= 1
 
 
 class Tank(MeleeUnit):
@@ -183,6 +187,7 @@ class Tank(MeleeUnit):
         if self.cooldown1 == 0:
             self.back_dmg = 15
             self.cooldown1 = 3
+            self.action_points -= 1
         self.clicked = False
 
     def special_ability2(self, cell):
@@ -190,6 +195,7 @@ class Tank(MeleeUnit):
         if self.cooldown2 == 0:
             self.current_movement += self.movement
             self.cooldown2 = 3
+            self.action_points -= 1
         self.clicked = False
 
     def special_ability3(self, cell):
@@ -197,6 +203,7 @@ class Tank(MeleeUnit):
         if self.cooldown3 == 0:
             self.current_hp += 5
             self.cooldown3 = 1
+            self.action_points -= 1
         self.clicked = False
 
     def special_ability4(self, unit):
@@ -207,6 +214,7 @@ class Tank(MeleeUnit):
                     unit.agred = 2
                 self.cooldown4 = 5
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -241,6 +249,7 @@ class Rogue(MeleeUnit):
                     unit.current_movement = 0
                 self.cooldown1 = 3
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -250,6 +259,7 @@ class Rogue(MeleeUnit):
             self.hit_status += 1
             self.cooldown2 = 3
             self.clicked = False
+            self.action_points -= 1
         else:
             self.clicked = False
 
@@ -259,6 +269,7 @@ class Rogue(MeleeUnit):
             self.current_damage += self.damage * 2 // 3
             self.cooldown3 = 2
             self.clicked = False
+            self.action_points -= 1
         else:
             self.clicked = False
 
@@ -270,6 +281,7 @@ class Rogue(MeleeUnit):
                     self.move_unit(cell[0], cell[1])
                     self.cooldown4 = 4
                     self.clicked = False
+                    self.action_points -= 1
         else:
             self.clicked = False
 
@@ -296,13 +308,19 @@ class Wizard(RangeUnit):
         self.hit_bar()
 
     def special_ability1(self, unit):
-        """ This ability allows you to freeze the enemy for 2 turns """
+        """ This ability allows you to heal an ally by 10 hp, diminish his cooldown4 and add 1 extra action point """
         if self.cooldown1 == 0:
             if type(unit) != list:
                 if self.check_walls(unit) == 0:
-                    unit.stunned = 2
+                    if unit.cooldown4 > 0:
+                        unit.cooldown4 -= 1
+                    unit.action_points += 1
+                    unit.current_hp += 10
+                    if unit.current_hp > unit.hp:
+                        unit.current_hp = unit.hp
                 self.cooldown1 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -314,18 +332,20 @@ class Wizard(RangeUnit):
                     unit.current_hp -= 30
                 self.cooldown2 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
     def special_ability3(self, unit):
-        """ This ability allows you to deal 10 damage and halve the enemy's movement radius """
+        """ This ability allows you to deal 10 damage and stun an enemy for 2 turns """
         if self.cooldown3 == 0:
             if type(unit) != list:
                 if self.check_walls(unit) == 0:
                     unit.current_hp -= 10
-                    unit.current_movement //= 2
+                    unit.stunned = 2
                 self.cooldown3 = 2
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -340,6 +360,7 @@ class Wizard(RangeUnit):
                     unit.cooldown4 += 1
                 self.cooldown4 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -371,14 +392,16 @@ class Sniper(RangeUnit):
             self.current_damage += self.damage // 2
             self.cooldown1 = 1
             self.clicked = False
+            self.action_points -= 1
         else:
             self.clicked = False
 
     def special_ability2(self, cell):
-        """ This ability increases the sniper's movement radius """
+        """ This ability allows sniper to ignore walls for 1 turn """
         if self.cooldown2 == 0:
             self.ignore_walls = 1
             self.cooldown2 = 2
+            self.action_points -= 1
         self.clicked = False
 
     def special_ability3(self, unit):
@@ -389,6 +412,7 @@ class Sniper(RangeUnit):
                     unit.current_hp -= 20
                 self.cooldown3 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -400,6 +424,7 @@ class Sniper(RangeUnit):
                     unit.movement -= unit.movement // 3
                 self.cooldown4 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -434,6 +459,7 @@ class Support(RangeUnit):
                         unit.current_hp = unit.hp
                 self.cooldown1 = 2
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -445,6 +471,7 @@ class Support(RangeUnit):
                     unit.protection = 2
                 self.cooldown2 = 2
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -457,6 +484,7 @@ class Support(RangeUnit):
                     unit.stunned = 2
                 self.cooldown3 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False
 
@@ -469,5 +497,6 @@ class Support(RangeUnit):
                     unit.current_hp = unit.hp
                 self.cooldown4 = 4
                 self.clicked = False
+                self.action_points -= 1
         else:
             self.clicked = False

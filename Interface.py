@@ -22,10 +22,11 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_SPACE:
             unit.current_movement = 0
-            unit.hit_status = 0
+            unit.action_points = 0
             game.update_info()
         if event.key == pygame.K_ESCAPE:
-            return 1
+            if unit.clicked:
+                unit.clicked = False
         if event.key == pygame.K_1:
             unit.ability = 1
             unit.clicked = True
@@ -52,7 +53,7 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                 sign.hovered = True
                 if sign == signs[0]:
                     unit.current_movement = 0
-                    unit.hit_status = 0
+                    unit.action_points = 0
                     game.update_info()
                 if sign == signs[1]:
                     return 1

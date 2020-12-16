@@ -34,7 +34,6 @@ game = Core.Game(screen, screen_height, screen_width, N, signs, f1)
 menu = pygame.image.load("pics/qop_arcana_bg.png").convert()
 menu = pygame.transform.scale(menu, (screen_height, screen_height))
 
-
 while not finished:
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -57,6 +56,8 @@ while not finished:
             else:
                 game.redraw()
                 game.draw_moves()
+                # game.possible_moves(game.unit.x // game.cell_size, game.unit.y // game.cell_size - 1, game.cells, N,
+                #       [], game.unit.current_movement)
                 game.unit.light()
                 finish = Interface.game_event(event, signs, cell_size, game.cells, game.unit, game.unit_order, game)
                 if finish == 1:
@@ -67,7 +68,7 @@ while not finished:
                                  pygame.font.Font(None, 30)),
                              Bar("Special ability", (cell_size * 3 * N // 4, 5), screen,
                                  pygame.font.Font(None, 30))]
-                if game.unit.hit_status == 0:
+                if game.unit.action_points == 0:
                     if game.unit == game.unit_order[len(game.unit_order) - 1]:
                         game.next_round()
                     else:

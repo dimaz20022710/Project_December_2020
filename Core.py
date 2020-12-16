@@ -142,8 +142,8 @@ class Game:
         text = self.font.render(
             'Player ' + str(self.unit.side) + ' , ' + str(self.unit.subclass) + ', hp - ' + str(
                 self.unit.current_hp) + ', movement - ' + str(
-                self.unit.current_movement) + ', hit - ' + str(
-                self.unit.hit_status) + ', cd1 - ' + str(self.unit.cooldown1) + ', cd2 - ' + str(self.unit.cooldown2)
+                self.unit.current_movement) + ', ap - ' + str(
+                self.unit.action_points) + ', cd1 - ' + str(self.unit.cooldown1) + ', cd2 - ' + str(self.unit.cooldown2)
             + ', cd3 - ' + str(self.unit.cooldown3) + ', cd4 - ' + str(self.unit.cooldown4), False,
             (0, 0, 0))
         self.screen.blit(text, (15, 0))
@@ -162,9 +162,10 @@ class Game:
                     self.unit.hit(self.units_2[0])
                 else:
                     self.unit.hit(self.units_1[0])
+                self.unit.action_points = 0
                 self.unit.agred -= 1
             if self.unit.stunned > 0:
-                self.unit.hit_status = 0
+                self.unit.action_points = 0
                 self.unit.stunned -= 1
         self.update_info()
 
@@ -178,6 +179,7 @@ class Game:
             u.hit_status = 1
             u.back_dmg = 0
             u.protection -= 1
+            u.action_points = 3
             u.current_movement = u.movement
             u.current_damage = u.damage
             if u.cooldown1 > 0:
@@ -272,3 +274,18 @@ class Game:
                 self.unit.special_ability3(cell)
             if self.unit.ability == 4:
                 self.unit.special_ability4(cell)
+
+    def possible_moves(self, i, j, cells, N, queue, move):
+        queue.append(cells[i][j])
+        if N + 1 > i + 1 and N - 1 > j >= 0 and cells[i + 1][j][2] == 0 and move > 0 and cells[i + 1][j] not in queue:
+            self.lighten_cell(cells[i + 1][j][0], cells[i + 1][j][1])
+            self.possible_moves(i + 1, j, cells, N, queue, move - 1)
+        if i - 1 >= 0 and N - 1 > j >= 0 and cells[i - 1][j][2] == 0 and move > 0 and cells[i - 1][j] not in queue:
+            self.lighten_cell(cells[i - 1][j][0], cells[i - 1][j][1])
+            self.possible_moves(i - 1, j, cells, N, queue, move - 1)
+        if N + 1 > i >= 0 and N - 1 > j + 1 and cells[i][j + 1][2] == 0 and move > 0 and cells[i][j + 1] not in queue:
+            self.lighten_cell(cells[i][j + 1][0], cells[i][j - 1][1])
+            self.possible_moves(i, j + 1, cells, N, queue, move - 1)
+        if N + 1 > i >= 0 and j - 1 >= 0 and cells[i][j - 1][2] == 0 and move > 0 and cells[i][j - 1] not in queue:
+            self.lighten_cell(cells[i][j - 1][0], cells[i][j - 1][1])
+            self.possible_moves(i, j - 1, cells, N, queue, move - 1)
