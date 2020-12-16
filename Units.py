@@ -257,12 +257,11 @@ class Rogue(MeleeUnit):
             self.clicked = False
 
     def special_ability3(self, cell):
-        """ This ability allows you to deal critical damage """
+        """ This ability allows you to deal critical damage, costs no ap """
         if self.cooldown3 == 0:
             self.current_damage += self.damage * 2 // 3
             self.cooldown3 = 2
             self.clicked = False
-            self.action_points -= 1
         else:
             self.clicked = False
 
@@ -274,7 +273,6 @@ class Rogue(MeleeUnit):
                     self.move_unit(cell[0], cell[1])
                     self.cooldown4 = 4
                     self.clicked = False
-                    self.action_points -= 1
         else:
             self.clicked = False
 
@@ -483,7 +481,7 @@ class Support(RangeUnit):
             self.clicked = False
 
     def special_ability4(self, unit):
-        """ This ability restores 50 health to an ally """
+        """ This ability restores 50 health to an ally, ignores walls """
         if self.cooldown4 == 0:
             if type(unit) != list:
                 unit.current_hp += 50

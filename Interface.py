@@ -18,8 +18,12 @@ def menu_event(options):
         option.new_window()
 
 
-def game_event(event, signs, cell_size, cells, unit, order, game):
+def game_event(event, game):
     """ This function handles all events from the player if we are in the game """
+    unit = game.unit
+    cells = game.cells
+    cell_size = game.cell_size
+    signs = game.signs
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_SPACE:
             unit.current_movement = 0
@@ -92,7 +96,7 @@ def game_event(event, signs, cell_size, cells, unit, order, game):
                                 unit.move_unit(j[0], j[1])
                                 game.update_info()
                         if j[2] == 1:
-                            for aim in order:
+                            for aim in game.unit_order:
                                 if aim.x == j[0] and aim.y == j[1] and aim.side != unit.side and unit.hit_status != 0:
                                     if unit.type == 'Melee':
                                         if abs(unit.x - aim.x) // cell_size < 2 and abs(

@@ -92,8 +92,18 @@ class Game:
             sign.draw()
         self.update_info()
 
-    def end_game(self):
-        pass
+    def check_end_game(self):
+        """ This function checks if the game is ended """
+        fin = 0
+        for unit in self.unit_order:
+            if unit.side == 1:
+                fin += 1
+        if fin == len(self.unit_order):
+            return 2, 1
+        elif fin == 0:
+            return 2, 2
+        else:
+            return 1, 0
 
     def lighten_cell(self, x, y):
         """ This function makes the cells available for turn yellow """
@@ -270,18 +280,3 @@ class Game:
                 self.unit.special_ability3(cell)
             if self.unit.ability == 4:
                 self.unit.special_ability4(cell)
-
-    def possible_moves(self, i, j, cells, N, queue, move):
-        queue.append(cells[i][j])
-        if N + 1 > i + 1 and N - 1 > j >= 0 and cells[i + 1][j][2] == 0 and move > 0 and cells[i + 1][j] not in queue:
-            self.lighten_cell(cells[i + 1][j][0], cells[i + 1][j][1])
-            self.possible_moves(i + 1, j, cells, N, queue, move - 1)
-        if i - 1 >= 0 and N - 1 > j >= 0 and cells[i - 1][j][2] == 0 and move > 0 and cells[i - 1][j] not in queue:
-            self.lighten_cell(cells[i - 1][j][0], cells[i - 1][j][1])
-            self.possible_moves(i - 1, j, cells, N, queue, move - 1)
-        if N + 1 > i >= 0 and N - 1 > j + 1 and cells[i][j + 1][2] == 0 and move > 0 and cells[i][j + 1] not in queue:
-            self.lighten_cell(cells[i][j + 1][0], cells[i][j - 1][1])
-            self.possible_moves(i, j + 1, cells, N, queue, move - 1)
-        if N + 1 > i >= 0 and j - 1 >= 0 and cells[i][j - 1][2] == 0 and move > 0 and cells[i][j - 1] not in queue:
-            self.lighten_cell(cells[i][j - 1][0], cells[i][j - 1][1])
-            self.possible_moves(i, j - 1, cells, N, queue, move - 1)

@@ -110,7 +110,7 @@ class Bar:
         """ This function changes the color of the button in the menu """
         color_red = (255, 0, 0)
         color_white = (255, 255, 255)
-        color_gray = (100, 100, 100)
+        color_black = (0, 0, 0)
 
         if self.hovered:
             if self.clicked:
@@ -118,7 +118,7 @@ class Bar:
             else:
                 return color_white
         else:
-            return color_gray
+            return color_black
 
     def set_rect(self):
         """ This function is responsible for the interaction of the player with the buttons in the menu. """
