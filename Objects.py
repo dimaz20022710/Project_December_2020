@@ -39,6 +39,7 @@ class Field:
         self.cells = []
 
     def draw_map(self):
+        """ This function draws cells """
         for i in range(self.N + 1):
             self.cells.append([])
             for j in range(1, self.N):
@@ -49,6 +50,7 @@ class Field:
         return self.cells
 
     def draw_walls(self):
+        """ This function draws walls """
         walls = []
         walls_1 = []
         for i in range(rint(self.N // 4, self.N // 3)):
@@ -78,9 +80,6 @@ class Field:
 
 
 class Bar:
-    """
-    """
-
     hovered = 0
     clicked = 0
 

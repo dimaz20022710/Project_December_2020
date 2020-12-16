@@ -5,14 +5,10 @@ import pygame
 
 
 class Unit(ABC):
-    """
-    This class describes units
-    """
+    """ This class describes units """
 
     def __init__(self, hp, damage, movement, x, y, side, screen, cell_size, cells):
-        """
-        This function will set the initial characteristics of an object of this class
-        """
+        """ This function will set the initial characteristics of an object of this class """
         self.hp = hp
         self.damage = damage
         self.movement = movement
@@ -70,9 +66,7 @@ class Unit(ABC):
         rect(self.screen, (0, 0, 0), (self.x, self.y - 20, self.cell_size, 10), 1)
 
     def move_unit(self, x, y):
-        """
-        This function describes the movement of the unit
-        """
+        """ This function describes the movement of the unit """
         self.cells[self.x // self.cell_size][self.y // self.cell_size - 1][2] = 0
         self.erase_pic()
         self.unlight()
@@ -84,6 +78,7 @@ class Unit(ABC):
         self.action_points -= 1
 
     def check_walls(self, aim):
+        """ This function checks for walls in the direction of the ability """
         k = 100
         points = []
         dy = (aim.y - self.y) / k
@@ -142,9 +137,7 @@ class RangeUnit(Unit, ABC):
         self.type = 'Range'
 
     def hit(self, aim):
-        """
-        This function describes unit attacks
-        """
+        """ This function describes unit attacks """
         if self.ignore_walls == 0:
             if self.check_walls(aim) == 0:
                 aim.current_hp -= self.current_damage
@@ -443,6 +436,7 @@ class Support(RangeUnit):
         self.Lion = pygame.transform.scale(self.Lion, (self.cell_size, self.cell_size))
 
     def draw_unit(self):
+        """ This function draws supports on the field """
         if self.side == 1:
             self.screen.blit(self.Crystal_maiden, (self.x, self.y))
         else:
@@ -464,7 +458,7 @@ class Support(RangeUnit):
             self.clicked = False
 
     def special_ability2(self, unit):
-        """ This ability allows an ally to be invulnerable for 2 turns """
+        """ This ability allows an ally to be invulnerable for spells for 2 turns """
         if self.cooldown2 == 0:
             if type(unit) != list:
                 if self.check_walls(unit) == 0:
