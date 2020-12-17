@@ -54,7 +54,7 @@ class Field:
         walls = []
         walls_1 = []
         for i in range(rint(self.N // 4, self.N // 3)):
-            walls.append(Wall(self.screen, rint(1, self.N - 3) * self.cell_size,
+            walls.append(Wall(self.screen, rint(1, self.N - 4) * self.cell_size,
                               rint(3, self.N // 2 - 2) * self.cell_size,
                               rint(1, self.N // 4) * self.cell_size,
                               rint(1, self.N // 4) * self.cell_size))

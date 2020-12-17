@@ -203,24 +203,27 @@ class Game:
 
     def set_allies(self):
         """ This function creates your characters """
+        coords = []
+        for i in range(self.N - 1):
+            coords.append(i)
         self.units_1.append(
-            Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
+            Tank(100, 10, (self.N + 1) // 4, coords.pop(randint(0, self.N - 2)) * self.cell_size,
                  randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                  self.cell_size, self.cells))
         self.units_1.append(
-            Rogue(60, 15, (self.N + 1) // 3, randint(1, self.N - 1) * self.cell_size,
+            Rogue(60, 15, (self.N + 1) // 3, coords.pop(randint(0, self.N - 3)) * self.cell_size,
                   randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                   self.cell_size, self.cells))
         self.units_1.append(
-            Wizard(55, 8, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
+            Wizard(55, 8, (self.N + 1) // 4, coords.pop(randint(0, self.N - 4)) * self.cell_size,
                    randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                    self.cell_size, self.cells))
         self.units_1.append(
-            Sniper(60, 15, (self.N + 1) // 5, randint(1, self.N - 1) * self.cell_size,
+            Sniper(60, 15, (self.N + 1) // 5, coords.pop(randint(0, self.N - 5)) * self.cell_size,
                    randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                    self.cell_size, self.cells))
         self.units_1.append(
-            Support(70, 10, (self.N + 1) // 4, randint(1, self.N - 1) * self.cell_size,
+            Support(70, 10, (self.N + 1) // 4, coords.pop(randint(0, self.N - 6)) * self.cell_size,
                     randint(self.N - 2, self.N - 1) * self.cell_size, 1, self.screen,
                     self.cell_size, self.cells))
         for i in range(5):
@@ -230,24 +233,27 @@ class Game:
 
     def set_enemies(self):
         """ This function creates enemy characters """
+        coords = []
+        for i in range(self.N - 1):
+            coords.append(i)
         self.units_2.append(
-            Tank(100, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+            Tank(100, 10, (self.N + 1) // 4, coords.pop(randint(0, self.N - 2)) * self.cell_size,
                  randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                  self.cell_size, self.cells))
         self.units_2.append(
-            Rogue(60, 15, (self.N + 1) // 3, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+            Rogue(60, 15, (self.N + 1) // 3, coords.pop(randint(0, self.N - 3)) * self.cell_size,
                   randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                   self.cell_size, self.cells))
         self.units_2.append(
-            Wizard(55, 8, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+            Wizard(55, 8, (self.N + 1) // 4, coords.pop(randint(0, self.N - 4)) * self.cell_size,
                    randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                    self.cell_size, self.cells))
         self.units_2.append(
-            Sniper(60, 15, (self.N + 1) // 5, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+            Sniper(60, 15, (self.N + 1) // 5, coords.pop(randint(0, self.N - 5)) * self.cell_size,
                    randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                    self.cell_size, self.cells))
         self.units_2.append(
-            Support(70, 10, (self.N + 1) // 4, randint(1, self.N - 1) * (self.screen_height // (self.N + 1)),
+            Support(70, 10, (self.N + 1) // 4, coords.pop(randint(0, self.N - 6)) * self.cell_size,
                     randint(1, 2) * (self.screen_height // (self.N + 1)), 2, self.screen,
                     self.cell_size, self.cells))
         for i in range(5):
